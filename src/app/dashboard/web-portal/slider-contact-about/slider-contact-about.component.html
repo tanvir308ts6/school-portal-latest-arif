@@ -1,0 +1,129 @@
+<div class="page-layout simple left-sidebar inner-sidebar inner-scroll">
+  <div class="content">
+    <div class="center pb-56">
+      <div class="app-panel-wrapper mat-white-bg mat-elevation-z2">
+        <div class="app-panel-body">
+          <div class="row" style="width: 100%;">
+            <mat-card class="col-md-12">
+              <mat-form-field appearance="outline">
+                <mat-label>Choose Institute</mat-label>
+                <mat-select [(ngModel)]="selectedInstitute_id">
+                  <mat-option>---</mat-option>
+                  <mat-option *ngFor="let tData of instituteDropdown; let i = index;" [value]="tData.id">
+                    <div class="col-md-12">
+                      <!-- <div class="col-md-4">
+                      <app-custom-image [cus_class]="['col-md-4']" [url_id]="tData?.logo_id" [img_id]="'sp_slide_inst'"
+                        [cus_style]="{width: '30px', height: '30px'}"></app-custom-image>
+                    </div> -->
+                      <div class="col-md-8">
+                        {{tData?.name_en}} -- {{tData?.short_name}} -- {{tData?.address}}
+                      </div>
+                    </div>
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </mat-card>
+            <mat-card class="col-md-12 m-2">
+              <mat-card-header class="mid-div">
+                <mat-card-title>Web Portal Slider</mat-card-title>
+                <mat-card-actions class="d-div">
+                  <button mat-raised-button color="primary" (click)="actionForAdd()">Add Slider</button>
+                  <button *ngIf="tableButtons.length === 3" matTooltip="Reorder" mat-icon-button color="primary"
+                    (click)="toggleReorder()">
+                    <mat-icon>reorder</mat-icon>
+                  </button>
+                  <button *ngIf="tableButtons.length === 4" mat-raised-button color="primary" (click)="saveOrdering()">
+                    Save Order
+                  </button>
+                </mat-card-actions>
+              </mat-card-header>
+              <mat-card-content>
+                <app-custom-table [table_data_api]="'portal/slider'" [table_structure]="tableStructure"
+                  [search_param]="{}" [forEdutube]="true" [table_buttons]="tableButtons"
+                  (actions)="actionFromTables($event)" [reload]="table_reload" [sort_by]="'order'">
+                </app-custom-table>
+              </mat-card-content>
+            </mat-card>
+            <div class="row ml-2 mt-2 flex-row">
+              <div style="width: 49.5%; height: 100%;">
+                <mat-card class="col-md-12" style="height: 100%;">
+                  <mat-card-header>
+                    <mat-card-title>Web Portal Contact Us</mat-card-title>
+                  </mat-card-header>
+                  <mat-card-content>
+                    <form [formGroup]="contactForm" novalidate style="margin: 0 auto;">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <mat-form-field>
+                            <mat-label>Map Embedded URL</mat-label>
+                            <input autocomplete="off" formControlName="location_url" id="title" matInput
+                              onfocus="this.removeAttribute('readonly');" placeholder="Enter URL">
+                            <mat-error *ngIf="contactForm.get('location_url')?.hasError('customError')">
+                              {{ contactForm.get('location_url')?.errors?.customError.value }}
+                            </mat-error>
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-12">
+                          <mat-label>Contact Information</mat-label>
+                          <ckeditor [editor]="editor" formControlName="contact_information" id="itemDescription">
+                          </ckeditor>
+                        </div>
+                      </div>
+                    </form>
+                  </mat-card-content>
+                  <mat-card-actions>
+                    <button mat-raised-button color="primary" (click)="actionForConfirm('contact')">Save</button>
+                  </mat-card-actions>
+                </mat-card>
+              </div>
+              <div style="width: 49.5%; height: 100%;">
+                <mat-card class="col-md-12" style="height: 100%;">
+                  <mat-card-header class="card-head">
+                    <mat-card-title>Web Portal About Us</mat-card-title>
+                    <mat-icon matTooltip="Details" (click)="detailsForImage()">remove_red_eye</mat-icon>
+                  </mat-card-header>
+                  <mat-card-content>
+                    <form [formGroup]="aboutForm" novalidate style="margin: 0 auto;">
+                      <div class="row">
+                        <div class="col-md-6">
+                          <mat-form-field>
+                            <mat-label>Title</mat-label>
+                            <input autocomplete="off" formControlName="title" id="title" matInput
+                              onfocus="this.removeAttribute('readonly');" placeholder="Enter Title">
+                            <mat-error *ngIf="aboutForm.get('title')?.hasError('customError')">
+                              {{ aboutForm.get('title')?.errors?.customError.value }}
+                            </mat-error>
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-6">
+                          <mat-label class="col-md-12">Upload Attachment</mat-label>
+                          <div class="col-md-12">
+                            <!-- <input type="file" (change)="setFileData($event, aboutForm, 'upload_attachment')"> -->
+                            <button mat-stroked-button (click)="openImageCropper(aboutForm, 'upload_attachment')">
+                              Upload
+                            </button>
+                          </div>
+                        </div>
+                        <div class="col-md-12">
+                          <mat-label>Description</mat-label>
+                          <ckeditor [editor]="editor" formControlName="description" id="itemDescription">
+                          </ckeditor>
+                          <mat-error *ngIf="aboutForm.get('description')?.hasError('customError')">
+                            {{ aboutForm.get('description')?.errors?.customError.value }}
+                          </mat-error>
+                        </div>
+                      </div>
+                    </form>
+                  </mat-card-content>
+                  <mat-card-actions>
+                    <button mat-raised-button color="primary" (click)="actionForConfirm('about')">Save</button>
+                  </mat-card-actions>
+                </mat-card>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

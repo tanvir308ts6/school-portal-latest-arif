@@ -1,0 +1,42 @@
+<mat-dialog-content class="mat-typography">
+  <div class="page-layout simple left-sidebar inner-sidebar inner-scroll">
+    <div class="content">
+      <div class="center p-24 pb-56">
+        <div class="app-panel-wrapper mat-white-bg mat-elevation-z2">
+          <div class="app-panel-header">
+            <div class="app-panel-title">
+              <div class="panel-header-left">
+                <mat-icon>library_books</mat-icon>
+                <h3>Slider Details</h3>
+              </div>
+            </div>
+            <div class="panel-header-right">
+              <button mat-button color="secondary" [mat-dialog-close]="null">
+                <mat-icon style="margin-right: 3px">keyboard_arrow_left</mat-icon>
+                <span>Cancel</span>
+              </button>
+            </div>
+          </div>
+          <div class="app-panel-body">
+            <div class="row" style="width: 100%;">
+              <div class="col-md-4">
+                <app-custom-image [url_id]="data?.data?.slider_photo_id" [cus_style]="style"></app-custom-image>
+              </div>
+              <div class="col-md-8">
+                <div class="row" style="width: 100%;">
+                  <div class="col-md-12">
+                    <h2>{{data?.data?.title}}</h2>
+                  </div>
+                  <div class="col-md-12">
+                    <div class="desc">Description</div>
+                    <div [innerHTML]="data?.data?.description"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>

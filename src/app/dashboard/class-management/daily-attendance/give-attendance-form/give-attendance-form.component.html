@@ -1,0 +1,106 @@
+<mat-dialog-content class="mat-typography">
+  <div class="page-layout simple left-sidebar inner-sidebar inner-scroll">
+    <div class="content">
+      <div class="center p-24 pb-56">
+        <div class="app-panel-wrapper mat-white-bg mat-elevation-z2">
+
+          <div class="app-panel-header">
+            <div class="app-panel-title">
+              <div class="panel-header-left">
+                <mat-icon>library_books</mat-icon>
+                <h3>{{title}} selected student</h3>
+              </div>
+            </div>
+            <div class="panel-header-right">
+              <button mat-button color="secondary" [mat-dialog-close]="null">
+                <mat-icon style="margin-right: 3px;">keyboard_arrow_left</mat-icon>
+                <span>Cancel</span>
+              </button>
+            </div>
+          </div>
+
+
+          <div class="app-panel-body">
+          <div class="table-body" style="flex-direction: column">
+            <mat-progress-bar *ngIf="loaderStatus" mode="indeterminate"></mat-progress-bar>
+            <table [dataSource]="dataSource" class="table-list" mat-table>
+
+              <ng-container matColumnDef="checkbox">
+                <th *matHeaderCellDef mat-header-cell>
+                  <!-- {{parentCheck}} -->
+                  <mat-checkbox type="checkbox" [(ngModel)]="parentCheck" (change)="onbgclick($event)"></mat-checkbox>
+                </th>
+                <td *matCellDef="let element" mat-cell>
+                  <!-- {{element.check}} -->
+                  <mat-checkbox type="checkbox" [(ngModel)]="element.check" (change)="onSingleclick(element,$event)"
+                  class="checklist-leaf-node"></mat-checkbox>
+                </td>
+              </ng-container>
+              <!-- Id Column -->
+
+              <ng-container matColumnDef="id">
+                <th *matHeaderCellDef mat-header-cell> No. </th>
+                <td *matCellDef="let i = index;" mat-cell> {{i + paginateStartNo + 1}} </td>
+              </ng-container>
+
+              <!-- Title Column -->
+              <ng-container matColumnDef="name">
+                <th *matHeaderCellDef mat-header-cell>Name</th>
+                <td *matCellDef="let element;" mat-cell> {{element.name}} </td>
+              </ng-container>
+              <ng-container matColumnDef="roll">
+                <th *matHeaderCellDef mat-header-cell>Roll</th>
+                <td *matCellDef="let element;" mat-cell>
+                  {{element?.class_roll}}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="class">
+                <th *matHeaderCellDef mat-header-cell>Class</th>
+                <td *matCellDef="let element;" mat-cell>
+                  {{element?.academic_class?.title}}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="section">
+                <th *matHeaderCellDef mat-header-cell>Section</th>
+                <td *matCellDef="let element;" mat-cell>
+                  {{element?.section?.title}}
+                </td>
+              </ng-container>
+          
+           
+                    <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+                    <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
+                  </table>
+                  <table style="margin-top: 20px;">
+                    <tr *ngIf="!dataSource.data.length">
+                      <td style="text-align: center;" [attr.colspan]="displayedColumns.length">
+                        <p style="font-size: medium; "> <b>No Data Available</b> </p>
+                      </td>
+                    </tr>
+                  </table>
+                  <mat-paginator #paginator (page)="changePagination($event)" [pageSizeOptions]="[10, 20, 50, 100]"
+                  showFirstLastButtons [length]="total" [pageSize]="size">
+                </mat-paginator>
+              </div>
+            </div>
+    </div>
+  </div>
+</div>
+</div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <!-- <button color="warn" mat-raised-button (click)="resetAction()">
+    <mat-icon style="margin-right: 3px;">autorenew</mat-icon>
+    <span>Reset</span>
+  </button> -->
+  <button *ngIf="!loaderStatus" class="reference-button add-button" mat-raised-button
+  (click)="validateForm()" cdkFocusInitial>
+  <mat-icon style="margin-right: 3px;">apps</mat-icon>
+  <span>Submit</span>
+</button>
+<button *ngIf="loaderStatus" class="reference-button" mat-raised-button (click)="validateForm()"
+cdkFocusInitial>
+<mat-progress-spinner style="background-color: white; float: left" mode="indeterminate" diameter="37">
+</mat-progress-spinner>
+</button>
+</mat-dialog-actions>

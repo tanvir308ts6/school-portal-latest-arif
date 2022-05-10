@@ -1,0 +1,206 @@
+<mat-dialog-content class="mat-typography">
+  <div class="page-layout simple left-sidebar inner-sidebar inner-scroll">
+    <div class="content">
+      <div class="center p-24 pb-56">
+        <div class="app-panel-wrapper mat-white-bg mat-elevation-z2">
+
+          <div class="app-panel-header">
+            <div class="app-panel-title">
+              <div class="panel-header-left">
+                <mat-icon>library_books</mat-icon>
+                <h3>{{title}} selected student</h3>
+              </div>
+            </div>
+            <div class="panel-header-right">
+              <button mat-button color="secondary" [mat-dialog-close]="null">
+                <mat-icon style="margin-right: 3px;">keyboard_arrow_left</mat-icon>
+                <span>Cancel</span>
+              </button>
+            </div>
+          </div>
+
+
+          <div class="app-panel-body">
+            <div class="app-panel-body">
+              <div >
+                <form [formGroup]="formItemsData" name="invcategoryForm" novalidate style="margin: 0 auto;">
+                  <div class="row">
+                    <div class="col-md-4">
+                      <b>Previous Session:</b>{{data.sessionObj.title}}
+                    </div>
+                    <div class="col-md-4">
+                      <b>Previous Class:</b>{{data.classObj.title}}
+                    </div>
+
+                    
+                    <div class="col-md-4">
+                    </div>
+                    <div class="col-md-4">
+                     <mat-form-field >
+                      <mat-label>Session</mat-label>
+                      <mat-select formControlName="session_id" id="categoryStatus" (selectionChange)="getSectionBySessionAndClass($event)">
+                        <mat-option>---</mat-option>
+                        <mat-option *ngFor="let stat of sessionDropdown" [value]="stat.id">
+                          {{stat.title}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                    <div class="col-md-4" >
+                     <mat-form-field >
+                      <mat-label>Class</mat-label>
+                      <mat-select formControlName="class_id" id="categoryStatus" (selectionChange)="getSectionBySessionAndClass($event)" [disabled]="!formItemsData.value.session_id || promotionStat == 'Not Promoted'">
+                        <mat-option>---</mat-option>
+                        <mat-option *ngFor="let stat of classDropdown" [value]="stat.id">
+                          {{stat.title}}
+                        </mat-option>
+                      </mat-select>
+                      <mat-error *ngIf="formItemsData.get('class_id')?.hasError('customError')">
+                        {{ formItemsData.get('class_id')?.errors?.customError.value }}
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  
+                 <div class="col-md-4">
+                   <mat-form-field>
+                    <mat-label>Section</mat-label>
+                    <mat-select formControlName="section_id" id="categoryStatus" [disabled]="!formItemsData.value.session_id || !formItemsData.value.class_id">
+                      <mat-option>---</mat-option>
+                      <mat-option *ngFor="let stat of sectionDropdown" [value]="stat.id">
+                        {{stat.title}}
+                      </mat-option>
+                    </mat-select>
+                    
+                  </mat-form-field>
+                </div>
+
+              </div>
+
+
+
+
+            </form>
+          </div>
+          <div style="float:right">
+
+            <div class="col-md-12">
+                 <!--  <button class="reference-button add-button mt-16 mt-sm-0 mr-2" id="courseAdd" mat-raised-button
+                    type="submit" (click)="validateForm('Promotion')">
+
+                    <span>Promote</span>
+                  </button> -->
+                  <!-- <button class="reference-button add-button mt-16 mt-sm-0 mr-2" id="courseAdd" mat-raised-button
+                    type="submit" (click)="validateForm('Not Promoted')">
+
+                    <span>Not Promoted</span>
+                  </button> -->
+                  
+
+                  
+
+                </div>
+              </div>
+
+
+            </div>
+            <div class="table-body" style="flex-direction: column">
+
+              <mat-progress-bar *ngIf="loaderStatus" mode="indeterminate"></mat-progress-bar>
+              <table [dataSource]="dataSource" class="table-list" mat-table>
+
+                <!-- Id Column -->
+                <ng-container matColumnDef="checkbox">
+                  <th *matHeaderCellDef mat-header-cell>
+                    <!-- {{parentCheck}} -->
+                    <mat-checkbox type="checkbox" [(ngModel)]="parentCheck" (change)="onbgclick($event)"></mat-checkbox>
+                  </th>
+                  <td *matCellDef="let element" mat-cell>
+                    <!-- {{element.check}} -->
+                    <mat-checkbox type="checkbox" [(ngModel)]="element.check" (change)="onSingleclick(element,$event)"
+                    class="checklist-leaf-node"></mat-checkbox>
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="id">
+                  <th *matHeaderCellDef mat-header-cell> No. </th>
+                  <td *matCellDef="let i = index;" mat-cell> {{i + paginateStartNo + 1}} </td>
+                </ng-container>
+
+                <!-- Title Column -->
+                <ng-container matColumnDef="name">
+                  <th *matHeaderCellDef mat-header-cell>Name</th>
+                  <td *matCellDef="let element;" mat-cell> {{element.name}} </td>
+                </ng-container>
+               <!--  <ng-container matColumnDef="prev_roll">
+                  <th *matHeaderCellDef mat-header-cell>Previous Roll</th>
+                  <td *matCellDef="let element;" mat-cell> {{element.class_roll}} </td>
+                </ng-container> -->
+                <ng-container matColumnDef="roll">
+                  <th *matHeaderCellDef mat-header-cell>Roll</th>
+                  <td *matCellDef="let element;" mat-cell> <input [(ngModel)]="element.class_roll" type="number">
+                    <!--  <mat-error style="font-size:12px;">
+                  {{element.validation}}
+                </mat-error> -->
+              </td>
+            </ng-container>
+          <!--   <ng-container matColumnDef="session">
+              <th *matHeaderCellDef mat-header-cell>Session</th>
+              <td *matCellDef="let element;" mat-cell> 
+              </td>
+            </ng-container> -->
+
+
+
+                <!--  
+              <ng-container matColumnDef="status">
+                <th *matHeaderCellDef mat-header-cell> Status </th>
+                <td *matCellDef="let element" mat-cell>
+                  <div *ngIf="element.status==1">Active</div>
+                  <div *ngIf="element.status==0">Inactive</div>
+                </td>
+              </ng-container> -->
+             <!--  <ng-container matColumnDef="actions">
+                <th *matHeaderCellDef mat-header-cell> Action</th>
+                <td *matCellDef="let element" mat-cell>
+
+                  <button matTooltip="Edit" id="locationEdit" mat-icon-button (click)="actionForDelete(element)">
+                    <mat-icon class="icon-edit">delete</mat-icon>
+                  </button>
+                </td>
+              </ng-container> -->
+              <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+              <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
+            </table>
+            <table style="margin-top: 20px;">
+              <tr *ngIf="!dataSource.data.length">
+                <td style="text-align: center;" [attr.colspan]="displayedColumns.length">
+                  <p style="font-size: medium; "> <b>No Data Available</b> </p>
+                </td>
+              </tr>
+            </table>
+            <mat-paginator #paginator (page)="changePagination($event)" [pageSizeOptions]="[10, 20, 50, 100]"
+            showFirstLastButtons [length]="total" [pageSize]="size">
+          </mat-paginator>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <!-- <button color="warn" mat-raised-button (click)="resetAction()">
+    <mat-icon style="margin-right: 3px;">autorenew</mat-icon>
+    <span>Reset</span>
+  </button> -->
+  <button *ngIf="!loaderStatus" class="reference-button add-button" mat-raised-button
+  (click)="validateForm()" cdkFocusInitial>
+  <mat-icon style="margin-right: 3px;">apps</mat-icon>
+  <span>Submit</span>
+</button>
+<button *ngIf="loaderStatus" class="reference-button" mat-raised-button (click)="validateForm()"
+cdkFocusInitial>
+<mat-progress-spinner style="background-color: white; float: left" mode="indeterminate" diameter="37">
+</mat-progress-spinner>
+</button>
+</mat-dialog-actions>

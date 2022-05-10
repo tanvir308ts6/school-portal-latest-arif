@@ -1,0 +1,54 @@
+<div class="login-container">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="login-title">
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="login-form">
+        <mat-card class="loginPanel">
+          <div class="row">
+            <div class="col-xs-12">
+              <mat-card-title><img (click)="redirectToUrl('WEB-PTL')" [src]="imageUrl" style="height: 70px; width: 70px;" /></mat-card-title>
+              <form (ngSubmit)="onSubmit()" [formGroup]="dataForm" name="loginForm" novalidate>
+                <mat-form-field appearance="outline">
+                  <mat-label>Email or username</mat-label>
+                  <input formControlName="email" id="loginEmail" matInput placeholder="Email">
+                  <mat-error *ngIf="dataForm.get('email')?.hasError('customError')">
+                    {{ dataForm.get('email')?.errors?.customError.value }}
+                  </mat-error>
+                </mat-form-field>
+                <br>
+                <mat-form-field appearance="outline">
+                  <mat-label>Password</mat-label>
+                  <input formControlName="password" id="loginPassword" matInput placeholder="Password"
+                    [type]="passwordFieldVisibility.type">
+                  <mat-icon style="cursor: pointer;" matSuffix (click)="changeVisibility()">
+                    {{passwordFieldVisibility.icon}}</mat-icon>
+                  <mat-error *ngIf="dataForm.get('password')?.hasError('customError')">
+                    {{ dataForm.get('password')?.errors?.customError.value }}
+                  </mat-error>
+                </mat-form-field>
+                <p>
+                  <span class="login-error">
+
+                  </span>
+                </p>
+                <div class="login-button">
+                  <button color="primary" style="width:100%;" mat-raised-button>LOGIN</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </mat-card>
+      </div>
+    </div>
+    <div class="row">
+      <div class="copyright">
+        <p>All rights reserved © dgme</p>
+      </div>
+    </div>
+  </div>
+</div>

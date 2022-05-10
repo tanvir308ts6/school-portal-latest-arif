@@ -1,0 +1,37 @@
+<mat-toolbar class="header-container">
+  <div style="padding-left: 6px;" [ngClass]="searchVisibility ? 'toolbar-item hidden' : 'toolbar-item visible'">
+    <div class="header-menu">
+      <button class="menu-toggle" mat-icon-button matTooltip="Toggle Sidebar" (click)="toggleOpened()">
+        <mat-icon style="color: rgb(255, 255, 255,1);"> {{currentToggle ? 'more_vert' : 'menu'}} </mat-icon>
+      </button>
+    </div>
+    <div class="intitute-name" (click)="goToInstitute()">{{displayName.name}}</div>
+    <div class="menu">
+    </div>
+    <div
+      style="display: flex; flex-flow: row wrap; justify-content: center; align-items: center; align-self: center; font-size: 18px; color:rgba(240, 240, 240, 1)">
+      <button mat-icon-button>
+        <mat-icon matBadge="2" matBadgePosition="after" matTooltip="Notification">notifications_none</mat-icon>
+      </button>
+      <button mat-icon-button class="mr-2">
+        <mat-icon matBadge="5" matBadgePosition="after" matTooltip="Mail">mail_outline</mat-icon>
+      </button>
+      <div [matMenuTriggerFor]="menu" matTooltip="Account"
+        style="display: flex; flex-flow: row wrap; justify-content: center; align-items: center; align-self: center; cursor: pointer; font-size: 15px;">
+        <img class="imgUrl" [src]="imgUrl+currentUser.profile_image" />{{currentUser.name}}<mat-icon>keyboard_arrow_down
+        </mat-icon>
+      </div>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item class="menu-button">
+          <mat-icon>account_circle</mat-icon>Profile
+        </button>
+        <button mat-menu-item class="menu-button">
+          <mat-icon>settings</mat-icon>Settings
+        </button>
+        <button mat-menu-item class="menu-button" (click)="logoutMethod()">
+          <mat-icon>arrow_back</mat-icon>Logout
+        </button>
+      </mat-menu>
+    </div>
+  </div>
+</mat-toolbar>

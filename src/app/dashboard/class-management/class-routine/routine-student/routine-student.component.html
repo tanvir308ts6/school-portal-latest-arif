@@ -1,0 +1,143 @@
+<div class="app-panel-wrapper mat-white-bg mat-elevation-z2">
+  <div class="app-panel-header">
+    <div class="app-panel-title">
+      <div class="panel-header-left">
+        <mat-icon>supervisor_account</mat-icon>
+        <h3>Class Routine for </h3>
+        <form class="col-md-10" [formGroup]="searchParam" (submit)="getTableData()" novalidate style="margin: 0 auto;">
+          <div class="row">
+            <div class="col-md-2">
+              <mat-form-field appearance="outline">
+                <mat-label>Institute</mat-label>
+                <mat-select formControlName="institute_id">
+                  <mat-option>---</mat-option>
+                  <mat-option *ngFor="let dropdownData of instituteDropdown" [value]="dropdownData?.id">
+                    {{dropdownData?.name_en}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="searchParam.get('institute_id')?.hasError('customError')">
+                  {{ searchParam.get('institute_id')?.errors?.customError.value }}
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-2">
+              <mat-form-field appearance="outline">
+                <mat-label>Class</mat-label>
+                <mat-select formControlName="class_id">
+                  <mat-option>---</mat-option>
+                  <mat-option *ngFor="let dropdownData of classDropdown" [value]="dropdownData?.id">
+                    {{dropdownData?.title}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="searchParam.get('class_id')?.hasError('customError')">
+                  {{ searchParam.get('class_id')?.errors?.customError.value }}
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-2">
+              <mat-form-field appearance="outline">
+                <mat-label>Shift</mat-label>
+                <mat-select formControlName="class_shift_id">
+                  <mat-option>---</mat-option>
+                  <mat-option *ngFor="let dropdownData of shiftDropdown" [value]="dropdownData?.id">
+                    {{dropdownData?.title}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="searchParam.get('class_shift_id')?.hasError('customError')">
+                  {{ searchParam.get('class_shift_id')?.errors?.customError.value }}
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-2">
+              <mat-form-field appearance="outline">
+                <mat-label>Group</mat-label>
+                <mat-select formControlName="group_id">
+                  <mat-option>---</mat-option>
+                  <mat-option *ngFor="let dropdownData of groupDropdown" [value]="dropdownData?.id">
+                    {{dropdownData?.title}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="searchParam.get('group_id')?.hasError('customError')">
+                  {{ searchParam.get('group_id')?.errors?.customError.value }}
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-2">
+              <mat-form-field appearance="outline">
+                <mat-label>Section</mat-label>
+                <mat-select formControlName="section_id">
+                  <mat-option>---</mat-option>
+                  <mat-option *ngFor="let dropdownData of sectionDropdown" [value]="dropdownData?.id">
+                    {{dropdownData?.title}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="searchParam.get('section_id')?.hasError('customError')">
+                  {{ searchParam.get('section_id')?.errors?.customError.value }}
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-2">
+              <mat-form-field appearance="outline">
+                <mat-label>Session</mat-label>
+                <mat-select formControlName="session_id">
+                  <mat-option>---</mat-option>
+                  <mat-option *ngFor="let dropdownData of sessionDropdown" [value]="dropdownData?.id">
+                    {{dropdownData?.title}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="searchParam.get('session_id')?.hasError('customError')">
+                  {{ searchParam.get('session_id')?.errors?.customError.value }}
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </form>
+        <div class="col-md-1">
+          <button mat-icon-button (click)="getTableData()">
+            <mat-icon>search</mat-icon>
+          </button>
+          <button mat-icon-button (click)="resetForm()">
+            <mat-icon>refresh</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="panel-header-right">
+      <button *ngIf="dataIsAvailable !== null" mat-raised-button (click)="actionForApiSend()">
+        {{dataIsAvailable ? 'Update' : 'Save'}}
+      </button>
+    </div>
+  </div>
+  <div class="app-panel-body">
+    <div>
+      <table>
+        <tr *ngFor="let row of tableDatas; let pi = index;">
+          <ng-container *ngFor="let col of row; let ci = index;">
+            <th *ngIf="col?.table_type === 'header'">
+              {{col?.title}}
+            </th>
+            <td *ngIf="col?.table_type === 'data'">
+              <div class="whole-section">
+                <div class="data-section">
+                  {{col?.title}}
+                </div>
+                <div class="action-section">
+                  <mat-icon (click)="actionForModifyTable(pi, ci)">edit</mat-icon>
+                  <mat-icon (click)="actionForDeletePeriod(pi, ci)">delete</mat-icon>
+                </div>
+              </div>
+            </td>
+            <td *ngIf="col?.table_type === 'null'">
+              
+            </td>
+          </ng-container>
+          <td>
+            <button mat-icon-button *ngIf="pi > 0" (click)="actionForModifyTable(pi)">
+              <mat-icon>add_circle</mat-icon>
+            </button>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,16 @@
+.govern-div {
+  border: 1px solid rgba(200,200,200,1);
+  border-radius: 4px;
+}
+
+.govern-div-head {
+  width: 100%;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mat-icon{
+  cursor: pointer;
+}

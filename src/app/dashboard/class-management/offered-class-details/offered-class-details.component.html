@@ -1,0 +1,126 @@
+<div class="page-layout simple left-sidebar inner-sidebar inner-scroll">
+  <div class="content">
+    <div class="center pb-56">
+      <div class="app-panel-wrapper mat-white-bg mat-elevation-z2">
+        <div class="app-panel-header">
+          <div class="app-panel-title">
+            <div class="panel-header-left">
+              <mat-icon>supervisor_account</mat-icon>
+              <mat-form-field appearance="outline" class="col-md-10 mt-3">
+                <mat-label>Offered Class</mat-label>
+                <mat-select [(ngModel)]="offered_class" (selectionChange)="changeRoute()">
+                  <mat-option>---</mat-option>
+                  <mat-option *ngFor="let off_class of offeredClassDropdown" [value]="off_class">
+                    {{off_class?.class?.title}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+              <h3>Details</h3>
+            </div>
+          </div>
+          <div class="panel-header-right">
+          </div>
+        </div>
+        <div class="app-panel-body">
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-md-6 p-1">
+                <mat-card class="col-md-12">
+                  <mat-card-header>
+                    <div mat-card-avatar>
+                      <mat-icon>details</mat-icon>
+                    </div>
+                    <mat-card-title-group>
+                      <mat-card-title>Class Details</mat-card-title>
+                    </mat-card-title-group>
+                  </mat-card-header>
+                  <mat-card-content>
+                    <table class="table-without-devider">
+                      <tr>
+                        <th>Class</th>
+                        <td>{{offered_class?.class?.title}}</td>
+                      </tr>
+                      <tr>
+                        <th>Class Co-ordinator</th>
+                        <td>{{offered_class?.coordinator?.name}}</td>
+                      </tr>
+                    </table>
+                  </mat-card-content>
+                  <mat-card-footer>
+                    <div>
+                      <button mat-stroked-button class="col-md-6" color="primary">
+                        Teachers
+                      </button>
+                      <button mat-stroked-button class="col-md-6" color="primary">
+                        Students
+                      </button>
+                    </div>
+                  </mat-card-footer>
+                </mat-card>
+              </div>
+              <div class="col-md-6 p-1">
+                <mat-card class="col-md-12">
+                  <mat-card-header>
+                    <div mat-card-avatar>
+                      <mat-icon>details</mat-icon>
+                    </div>
+                    <mat-card-title-group>
+                      <mat-card-title>Class Sections</mat-card-title>
+                    </mat-card-title-group>
+                  </mat-card-header>
+                  <mat-card-content>
+                    <table class="table-with-devider">
+                      <tr>
+                        <th>Sl No.</th>
+                        <th>Section</th>
+                        <th>Actions</th>
+                      </tr>
+                      <tr>
+                      </tr>
+                    </table>
+                  </mat-card-content>
+                  <mat-card-footer>
+                    <div>
+                      <button mat-stroked-button class="col-md-12" color="primary" (click)="reRouteToUrl('class-section')">
+                        Modify Sections
+                      </button>
+                    </div>
+                  </mat-card-footer>
+                </mat-card>
+              </div>
+              <div class="col-md-12 p-1">
+                <mat-card class="col-md-12">
+                  <mat-card-header>
+                    <div mat-card-avatar>
+                      <mat-icon>details</mat-icon>
+                    </div>
+                    <mat-card-title-group>
+                      <mat-card-title>
+                          Class Subjects
+                        <!-- <button mat-stroked-button>
+                          Go To Subjects
+                        </button> -->
+                      </mat-card-title>
+                    </mat-card-title-group>
+                  </mat-card-header>
+                  <mat-card-content>
+                    <table class="table-with-devider">
+                      <tr>
+                        <th>Sl No.</th>
+                        <th>Subject</th>
+                      </tr>
+                      <tr *ngFor="let subject of offered_class?.subject; let i = index;">
+                        <td>{{i+1}}</td>
+                        <td>{{subject?.subject_details?.title}}</td>
+                      </tr>
+                    </table>
+                  </mat-card-content>
+                </mat-card>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

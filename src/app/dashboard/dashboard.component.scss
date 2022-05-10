@@ -1,0 +1,33 @@
+
+mat-sidenav-container{
+  height: 100vh;
+  background: #eeeded;
+}
+
+mat-sidenav{
+  //width: 16em;
+  background: rgba(0, 0, 0, 1);
+  padding: none;
+}
+
+.mat-drawer-side {
+  border-right: none;
+  border-left: none;
+  box-shadow: 0 3px 5px -1px rgba(0,0,0,.1),
+  0 5px 8px 0 rgba(0,0,0,.1),
+  0 1px 14px 0 rgba(0,0,0,.1);
+}
+
+.dashboard-main-section{
+  padding: 1em;
+}
+
+.mat-drawer-content{
+  overflow-x: hidden;
+}
+
+.expand-search-panel{
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}

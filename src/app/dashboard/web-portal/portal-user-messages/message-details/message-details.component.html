@@ -1,0 +1,66 @@
+<mat-dialog-content class="mat-typography">
+  <div class="page-layout simple left-sidebar inner-sidebar inner-scroll">
+    <div class="content">
+      <div class="center p-24 pb-56">
+        <div class="app-panel-wrapper mat-white-bg mat-elevation-z2">
+          <div class="app-panel-header">
+            <div class="app-panel-title">
+              <div class="panel-header-left">
+                <mat-icon>library_books</mat-icon>
+                <h3>View Message</h3>
+              </div>
+            </div>
+            <div class="panel-header-right">
+              <button mat-button color="secondary" [mat-dialog-close]="null">
+                <mat-icon style="margin-right: 3px;">keyboard_arrow_left</mat-icon>
+                <span>Cancel</span>
+              </button>
+            </div>
+          </div>
+          <div class="app-panel-body">
+            <mat-card>
+              <mat-card-header>
+                <mat-card-title>{{data?.subject}}</mat-card-title>
+                <mat-card-subtitle>{{data?.email}}</mat-card-subtitle>
+                <mat-card-subtitle>{{data?.created_at?.slice(0,10) | date: 'MMMM d,y'}}</mat-card-subtitle>
+              </mat-card-header>
+              <mat-card-content>
+                <div class="col-md-12 row">
+                  <!-- <div class="col-md-12">
+                    <table>
+                      <tr class="col-md-12">
+                        <th class="col-md-4">Contact Number</th>
+                        <td class="col-md-8">{{data?.contact}}</td>
+                      </tr>
+                    </table>
+                  </div> -->
+                  <div class="col-md-12">
+                    <div [innerHTML]="data?.message">
+
+                    </div>
+                  </div>
+                </div>
+              </mat-card-content>
+              <mat-card-footer>
+                <div class="col-md-12">
+                  <div class="col-md-12" style="font-weight: bolder;">
+                    {{data?.name}}
+                  </div>
+                  <div class="col-md-12">
+                    {{data?.contact}}
+                  </div>
+                </div>
+              </mat-card-footer>
+            </mat-card>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button color="accent" mat-raised-button (click)="replyMessage()">
+    <mat-icon style="margin-right: 3px;">forward</mat-icon>
+    <span>Reply</span>
+  </button>
+</mat-dialog-actions>

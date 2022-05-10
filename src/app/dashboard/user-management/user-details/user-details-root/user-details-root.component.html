@@ -1,0 +1,37 @@
+<div class="page-layout simple left-sidebar inner-sidebar inner-scroll">
+  <div class="content">
+    <div class="center p-24 pb-56">
+      <div class="app-panel-wrapper mat-white-bg mat-elevation-z2">
+        <div class="app-panel-header">
+          <div class="flex-column">
+            <div class="flex-row">
+              <div class="app-panel-title">
+                <div class="panel-header-left">
+                  <mat-icon>library_books</mat-icon>
+                  <h3>{{headerData.title}}</h3>
+                </div>
+                <p>{{headerData.subtitle}}</p>
+              </div>
+              <div class="panel-header-right">
+                <button mat-button color="secondary" [mat-dialog-close]="null">
+                  <mat-icon style="margin-right: 3px;">keyboard_arrow_left</mat-icon>
+                  <span>Cancel</span>
+                </button>
+              </div>
+            </div>
+            <mat-tab-group mat-align-tabs="start" (selectedTabChange)="setCurrentTab($event)">
+              <mat-tab label="Basic Information">
+              </mat-tab>
+              <mat-tab label="Previous Academic Information">
+              </mat-tab>
+            </mat-tab-group>
+          </div>
+        </div>
+        <div class="app-panel-body">
+          <app-user-details-form *ngIf="currentTab === 0" [table_data]="basicData"></app-user-details-form>
+          <app-user-academic-data *ngIf="currentTab === 1" [root_url]="root_url" [user_id]="data?.data?.user_id"></app-user-academic-data>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

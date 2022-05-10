@@ -1,0 +1,38 @@
+<mat-dialog-content class="mat-typography">
+  <div class="page-layout simple left-sidebar inner-sidebar inner-scroll">
+    <div class="content">
+      <div class="center p-24 pb-56">
+        <div class="app-panel-wrapper mat-white-bg mat-elevation-z2">
+          <div class="app-panel-header">
+            <div class="app-panel-title">
+              <div class="panel-header-left">
+                <mat-icon>library_books</mat-icon>
+                <h3>Choose Image</h3>
+              </div>
+            </div>
+            <div class="panel-header-right">
+              <button mat-button color="secondary" [mat-dialog-close]="null">
+                <mat-icon style="margin-right: 3px;">keyboard_arrow_left</mat-icon>
+                <span>Cancel</span>
+              </button>
+            </div>
+          </div>
+          <div class="app-panel-body">
+            <input type="file" (change)="fileChangeEvent($event)" />
+
+            <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true" [aspectRatio]="data.ratio"
+              format="png" (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()"
+              (cropperReady)="cropperReady()" (loadImageFailed)="loadImageFailed()"></image-cropper>
+
+            <img [src]="croppedImage" style="max-width:'100%'" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button class="reference-button" mat-raised-button (click)="sendImageFile()" cdkFocusInitial>
+    Select
+  </button>
+</mat-dialog-actions>

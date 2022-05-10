@@ -1,0 +1,131 @@
+.login-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(10, 25, 70, 1);
+  // background-image: url('../../../assets/images/login/login_background.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.logo {
+  padding-bottom: 10px;
+}
+
+.login-title h2 {
+  font-size: 30px;
+  text-align: center;
+  width: 100%;
+  color: #fff;
+  opacity: 0.5;
+  position: absolute;
+  left: 0;
+  right: 0;
+  padding: 0;
+  margin: auto;
+}
+
+.copyright {
+  text-align: center;
+  color: #fff;
+  opacity: 0.5;
+  width: 100%;
+  margin-top: 20vh;
+}
+
+.login-form {
+  top: 200px;
+  left: 0;
+  right: 0;
+  margin: auto;
+  height: auto;
+}
+
+.loginPanel {
+  margin-top: 40%;
+  padding: 20px 35px 40px 35px;
+  box-shadow: 0 0 6px rgba(0, 0, 0, .3);
+  background: rgb(135, 128, 255);
+  background: linear-gradient(153deg, rgba(135, 128, 255, 1) 0%, rgba(193, 193, 255, 1) 50%, rgba(140, 236, 255, 1) 100%);
+}
+
+.mat-form-field {
+  width: 100%;
+  min-width: 300px;
+}
+
+mat-card-title,
+mat-card-content {
+  display: flex;
+  justify-content: center;
+}
+
+.error {
+  padding: 16px;
+  width: 300px;
+  color: white;
+  background-color: red;
+}
+
+.button {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.login-button {
+  background: rgba(255, 255, 255, 1);
+  margin-top: 25px;
+}
+
+.login-error {
+  color: red;
+  font-size: 14px;
+}
+
+.captcha-area {
+  padding: 0 15px;
+  bottom: 20px;
+}
+
+@media only screen and (max-width: 480px) {
+
+  .login-container h2 {
+    top: 40px;
+    font-size: 20px;
+  }
+
+  .copyright {
+    margin-top: 4vh;
+    padding: 20px 15px;
+  }
+
+  .mat-form-field {
+    min-width: 200px;
+    margin-top: 1%;
+  }
+}
+
+@media only screen and (min-width: 481px) and (max-width: 640px) {
+
+  .mat-form-field {
+    margin-top: 0;
+  }
+
+}
+
+@media only screen and (min-width: 1025px) and (max-width: 1366px) {
+  .login-container h2 {
+    top: 40px;
+  }
+
+  .copyright {
+    margin-top: 8vh;
+    padding: 20px 15px;
+  }
+
+  .loginPanel {
+    margin-top: 28%;
+  }
+}

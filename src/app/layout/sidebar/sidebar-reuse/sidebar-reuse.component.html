@@ -1,0 +1,23 @@
+<mat-expansion-panel style="background-color: rgb(0, 25, 50, 1); border-radius: 15px; border: none;"
+  *ngFor="let data of dataList; let index=index;" matRipple
+  [disabled]="!data.tog || (!sidebarTog && data.positionInTree >= 2 && !mouseIsOver)" [hideToggle]="!data.tog"
+  [expanded]="data.tog && data.exp" (opened)="changeExp(data, 'Open')" (closed)="changeExp(data, 'Close')">
+  <mat-expansion-panel-header
+    [ngStyle]="{'background-color': (data.exp && !data.tog) ? 'rgba(200,200,200,.5)' : '', 'border': (data.exp && !data.tog) ? '1px solid black' : 'none', 'display': (!sidebarTog && data.positionInTree > 2 && !mouseIsOver) ? 'none' : 'flex'}"
+    [ngClass]="{'panelHeader': (data.exp || !data.exp)}">
+    <mat-panel-title (click)="stateChange(data, index)" (contextmenu)="stateChangeForNewTab($event, data, index)"
+      style="user-select: none;">
+      <!-- <mat-icon class="menuIcon">{{ data['icon'] }}</mat-icon> -->
+      <div style="display: flex; flex-flow: row wrap; align-items: center; justify-content: center;"><img class="imgUrl"
+          [src]="generateSidebarIconPath(data)"></div>
+      <div style="align-self: center; font-size: 13px;">
+        {{ (sidebarTog || mouseIsOver) && data['name'] ? data['name'] : "" }}</div>
+    </mat-panel-title>
+    <ng-template matExpansionPanelContent *ngIf="data['permissions']" style="padding: none">
+      <mat-accordion>
+        <app-sidebar-reuse [mouseIsOver]="mouseIsOver" [mainDataList]="mainDataList" [dataList]="data['permissions']" [sidebarTog]="sidebarTog">
+        </app-sidebar-reuse>
+      </mat-accordion>
+    </ng-template>
+  </mat-expansion-panel-header>
+</mat-expansion-panel>

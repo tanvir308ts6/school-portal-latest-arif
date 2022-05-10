@@ -1,0 +1,177 @@
+<div class="page-layout simple left-sidebar inner-sidebar inner-scroll">
+  <div class="content">
+    <div class="center pb-56">
+      <div class="app-panel-wrapper mat-white-bg mat-elevation-z2">
+        <div class="app-panel-body">
+          <div class="row" style="width: 100%;">
+            <mat-card class="col-md-12">
+              <mat-form-field appearance="outline">
+                <mat-label>Select Institute</mat-label>
+                <mat-select [(ngModel)]="selectedInstitute_id">
+                  <mat-option>---</mat-option>
+                  <mat-option *ngFor="let tData of instituteDropdown; let i = index;" [value]="tData.id">
+                    <div class="col-md-12">
+                      <div class="col-md-4">
+                        <!-- <app-custom-image [cus_class]="['col-md-4']" [url_id]="tData?.logo_id"
+                          [img_id]="'sp_slide_inst'" [cus_style]="{width: '30px', height: '30px'}"></app-custom-image> -->
+                      </div>
+                      <div class="col-md-8">
+                        {{tData?.name_en}} -- {{tData?.short_name}} -- {{tData?.address}}
+                      </div>
+                    </div>
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </mat-card>
+            <mat-card class="col-md-12 m-2">
+              <mat-card-header>
+                <mat-card-title>Welcome Message</mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                <form [formGroup]="welcomeForm" novalidate style="margin: 0 auto;">
+                  <div class="row" style="width: 100%;">
+                    <div class="col-md-6">
+                      <mat-form-field>
+                        <mat-label>Title</mat-label>
+                        <input autocomplete="off" formControlName="title" id="title" matInput
+                          onfocus="this.removeAttribute('readonly');" placeholder="Enter Title">
+                        <mat-error *ngIf="welcomeForm.get('title')?.hasError('customError')">
+                          {{ welcomeForm.get('title')?.errors?.customError.value }}
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-md-12">
+                      <mat-label>Message</mat-label>
+                      <ckeditor [editor]="editor" formControlName="description" id="itemDescription">
+                      </ckeditor>
+                    </div>
+                  </div>
+                </form>
+              </mat-card-content>
+              <mat-card-actions>
+                <button mat-raised-button color="primary" (click)="saveWelcomeMessage()">Save</button>
+              </mat-card-actions>
+            </mat-card>
+            <mat-card class="col-md-12 m-2">
+              <mat-card-header>
+                <mat-card-title>Governing Body</mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                <div style="width: 100%; display: flex; flex-flow: row wrap; justify-content: space-around;">
+                  <div class="col-md-6 p-2 govern-div">
+                    <div class="govern-div-head">
+                      <h4 style="width: auto; font-weight: 900;">Body 1</h4>
+                      <div style="width: auto;">
+                        <mat-icon color="primary" matTooltip="Save" (click)="saveGoverningBody(1)">save</mat-icon>
+                        <mat-icon color="warn" matTooltip="Delete" *ngIf="governingForm1.value['_method'] === 'PUT'"
+                          (click)="actionForConfirm(1)">
+                          delete</mat-icon>
+                        <mat-icon color="accent" matTooltip="Details"
+                          *ngIf="governingData[0] && governingData[0].attachment_id" (click)="detailsForImage(1)">
+                          remove_red_eye</mat-icon>
+                      </div>
+                    </div>
+                    <form [formGroup]="governingForm1" novalidate style="margin: 0 auto;">
+                      <div class="row col-md-12">
+                        <div class="col-md-6">
+                          <mat-form-field>
+                            <mat-label>Title</mat-label>
+                            <input autocomplete="off" formControlName="title" id="title" matInput
+                              onfocus="this.removeAttribute('readonly');" placeholder="Enter Title">
+                            <mat-error *ngIf="governingForm1.get('title')?.hasError('customError')">
+                              {{ governingForm1.get('title')?.errors?.customError.value }}
+                            </mat-error>
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-6">
+                          <mat-form-field>
+                            <mat-label>Designation</mat-label>
+                            <input autocomplete="off" formControlName="designation" id="title" matInput
+                              onfocus="this.removeAttribute('readonly');" placeholder="Enter Designation">
+                            <mat-error *ngIf="governingForm1.get('designation')?.hasError('customError')">
+                              {{ governingForm1.get('designation')?.errors?.customError.value }}
+                            </mat-error>
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-12">
+                          <mat-label>Message</mat-label>
+                          <ckeditor [editor]="editor" formControlName="message" id="itemDescription">
+                          </ckeditor>
+                          <mat-error *ngIf="governingForm1.get('message')?.hasError('customError')">
+                            {{ governingForm1.get('message')?.errors?.customError.value }}
+                          </mat-error>
+                        </div>
+                        <div class="col-md-6">
+                          <mat-label class="col-md-12">Upload Photo</mat-label>
+                          <div class="col-md-12">
+                            <!-- <input type="file" (change)="setFileData($event, governingForm1, 'upload_attachment')"> -->
+                            <button mat-stroked-button
+                              (click)="openImageCropper(governingForm1, 'upload_attachment')">Upload</button>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                  <div class="col-md-6 govern-div p-2">
+                    <div class="govern-div-head">
+                      <h4 style="width: auto; font-weight: 900;">Body 2</h4>
+                      <div style="width: auto;">
+                        <mat-icon color="primary" matTooltip="Save" (click)="saveGoverningBody(2)">save</mat-icon>
+                        <mat-icon color="warn" matTooltip="Delete" *ngIf="governingForm1.value['_method'] === 'PUT'"
+                          (click)="actionForConfirm(2)">
+                          delete</mat-icon>
+                        <mat-icon color="accent" matTooltip="Details"
+                          *ngIf="governingData[1] && governingData[1].attachment_id" (click)="detailsForImage(2)">
+                          remove_red_eye</mat-icon>
+                      </div>
+                    </div>
+                    <form [formGroup]="governingForm2" novalidate style="margin: 0 auto;">
+                      <div class="row col-md-12">
+                        <div class="col-md-6">
+                          <mat-form-field>
+                            <mat-label>Title</mat-label>
+                            <input autocomplete="off" formControlName="title" id="title" matInput
+                              onfocus="this.removeAttribute('readonly');" placeholder="Enter Title">
+                            <mat-error *ngIf="governingForm2.get('title')?.hasError('customError')">
+                              {{ governingForm2.get('title')?.errors?.customError.value }}
+                            </mat-error>
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-6">
+                          <mat-form-field>
+                            <mat-label>Designation</mat-label>
+                            <input autocomplete="off" formControlName="designation" id="title" matInput
+                              onfocus="this.removeAttribute('readonly');" placeholder="Enter Designation">
+                            <mat-error *ngIf="governingForm2.get('designation')?.hasError('customError')">
+                              {{ governingForm2.get('designation')?.errors?.customError.value }}
+                            </mat-error>
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-12">
+                          <mat-label>Message</mat-label>
+                          <ckeditor [editor]="editor" formControlName="message" id="itemDescription">
+                          </ckeditor>
+                          <mat-error *ngIf="governingForm2.get('message')?.hasError('customError')">
+                            {{ governingForm2.get('message')?.errors?.customError.value }}
+                          </mat-error>
+                        </div>
+                        <div class="col-md-6">
+                          <mat-label class="col-md-12">Upload Photo</mat-label>
+                          <div class="col-md-12">
+                            <!-- <input type="file" (change)="setFileData($event, governingForm2, 'upload_attachment')"> -->
+                            <button mat-stroked-button
+                              (click)="openImageCropper(governingForm2, 'upload_attachment')">Upload</button>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

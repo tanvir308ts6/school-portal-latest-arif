@@ -1,0 +1,67 @@
+<div [ngClass]="{
+    'side-bar': menuContentToggle,
+    'side-bar-collapse': !menuContentToggle
+  }">
+  <div class="side-menu">
+    <div class="header-section" [ngStyle]="menuContentToggle ? {'height': '150px'} : {'height': '100px'}">
+      <div class="top" style="user-select: none;" (click)="redirectToHome()">
+        <div *ngIf="menuContentToggle || mouseIsOver">
+          <img style="border-radius: 30%" class="logo" src="{{currentUser?.profile_image}}" />
+          <div class="holder-name">{{sidebar_header}}</div>
+        </div>
+        <div *ngIf="!menuContentToggle && !mouseIsOver">
+          <img style="border-radius: 30%" class="logo-small" src="{{currentUser?.profile_image}}" />
+        </div>
+      </div>
+    </div>
+    <mat-accordion>
+      <app-sidebar-reuse [mouseIsOver]="mouseIsOver" [mainDataList]="menuList" [dataList]="menuList" [sidebarTog]="menuContentToggle">
+      </app-sidebar-reuse>
+    </mat-accordion>
+  </div>
+</div>
+
+<!--  <mat-list>
+      <mat-list-item *ngFor="let menu of data['permissions']" matRipple routerLink="{{ menu['path'] }}">
+        <div (click)="stateChange(menu)" [style]="panelOpenState ? 'height: 150px' : ''">
+          <mat-icon class="menuIcon">{{ menu['icon'] }}</mat-icon>
+          {{ menu['name'] ? menu['name'] : "" }}
+          <mat-list *ngIf="panelOpenState">
+            <mat-list-item *ngFor="let men of menu['permissions']">
+              {{men['name'] ? men['name'] : ''}}
+            </mat-list-item>
+          </mat-list>
+        </div>
+      </mat-list-item>
+    </mat-list>
+    <mat-accordion>
+      <mat-expansion-panel
+        [disabled]="!panelOpenState[index].tog" [hideToggle]="!panelOpenState[index].tog"
+        [expanded]="panelOpenState[index].exp"
+        *ngFor="let menu of data['permissions']; let index = index;"
+        matRipple
+      >
+        <mat-expansion-panel-header>
+          <mat-panel-title (click)="stateChange(menu, index)">
+            <mat-icon class="menuIcon">{{ menu['icon'] }}</mat-icon>
+            {{ menu['name'] ? menu['name'] : "" }}
+          </mat-panel-title>
+          <ng-template matExpansionPanelContent *ngIf="menu['permissions']">
+            <mat-list>
+              <mat-list-item *ngFor="let s_menu of menu['permissions']" (click)="stateChange(s_menu)">
+                <mat-icon class="menuIcon">{{ s_menu['icon'] }}</mat-icon>
+                {{ s_menu['name'] ? s_menu['name'] : "" }}
+              </mat-list-item>
+            </mat-list>
+          </ng-template>
+        </mat-expansion-panel-header>
+      </mat-expansion-panel>
+    </mat-accordion> -->
+<!-- <mat-accordion>
+      <mat-list>
+        <mat-list-item matRipple routerLink="/">
+          <mat-icon class="menuIcon dashboardIcon">dashboard</mat-icon>
+          {{ menuContentToggle ? "Dashboard" : "" }}
+        </mat-list-item>
+      </mat-list>
+    </mat-accordion> -->

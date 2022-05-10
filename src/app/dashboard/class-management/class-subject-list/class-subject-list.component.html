@@ -1,0 +1,44 @@
+<div class="app-panel-wrapper mat-white-bg mat-elevation-z2">
+  <div class="app-panel-header">
+    <div class="app-panel-title">
+      <div class="panel-header-left">
+        <h3>Class Subject List</h3>
+      </div>
+    </div>
+  </div>
+  <div class="app-panel-body">
+    <div class="col-md-12 row">
+      <div class="col-md-6 p-2" *ngFor="let item of classSubjectDropdown">
+        <mat-card (click)="cardCLicked(item.class_unique_code)" style="cursor: pointer;">
+          <mat-card-header>
+            <mat-card-title>{{item?.class_title}}</mat-card-title>
+            <mat-card-subtitle>
+              <table>
+                <tr>
+                  <th class="col-md-6">Subject</th>
+                  <td class="col-md-6">{{item?.subject_title}}</td>
+                </tr>
+              </table>
+            </mat-card-subtitle>
+            <mat-card-subtitle>
+              <table>
+                <tr>
+                  <th class="col-md-6">Group</th>
+                  <td class="col-md-6">{{item.group_title}}</td>
+                </tr>
+              </table>
+            </mat-card-subtitle>
+			<mat-card-subtitle>
+				<table>
+				  <tr>
+					<th class="col-md-6">Shift</th>
+					<td class="col-md-6">{{item.shift_title}}</td>
+				  </tr>
+				</table>
+			  </mat-card-subtitle>
+          </mat-card-header>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</div>

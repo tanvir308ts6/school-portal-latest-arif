@@ -1,0 +1,79 @@
+<div class="page-layout simple left-sidebar inner-sidebar inner-scroll">
+  <div class="content">
+    <div class="center pb-56">
+      <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Custom Search Panel
+          </mat-panel-title>
+          <div>
+            <mat-icon *ngIf="panelOpenState">keyboard_arrow_up</mat-icon>
+            <mat-icon *ngIf="!panelOpenState">keyboard_arrow_down</mat-icon>
+          </div>
+          <mat-panel-description>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <div>
+          <form [formGroup]="searchParam" novalidate style="margin: 0 auto;">
+            <div class="row">
+              <div class="col-md-6">
+                <mat-form-field>
+                  <mat-label>Class</mat-label>
+                  <mat-select type="number" formControlName="class_id" id="class_id">
+                    <mat-option>---</mat-option>
+                    <mat-option *ngFor="let item of classDropdown" [value]="item.id">
+                      {{item.title}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6">
+                <mat-form-field>
+                  <mat-label>Class Co-ordinator</mat-label>
+                  <mat-select type="number" formControlName="class_coordinator_id" id="class_coordinator_id">
+                    <mat-option>---</mat-option>
+                    <mat-option *ngFor="let item of teacherDropdown" [value]="item.id">
+                      {{item.name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="button-container" mat-dialog-actions align="center">
+              <button color="warn" mat-raised-button class="cancelBtnDialog mr-2" (click)="resetSearch()"
+                id="cancelBtnDialog">
+                <mat-icon>restore</mat-icon>Reset
+              </button>
+              <button color="primary" mat-raised-button class="yesBtnDialog ml-2" (click)="reloadTable()"
+                id="yesBtnDialog" cdkFocusInitial>
+                <mat-icon>search</mat-icon>Search
+              </button>
+            </div>
+          </form>
+        </div>
+      </mat-expansion-panel>
+      <div class="app-panel-wrapper mat-white-bg mat-elevation-z2">
+        <div class="app-panel-header">
+          <div class="app-panel-title">
+            <div class="panel-header-left">
+              <mat-icon>supervisor_account</mat-icon>
+              <h3>Class</h3>
+            </div>
+          </div>
+          <div class="panel-header-right">
+            <button class="reference-button add-button mt-16 mt-sm-0" id="courseAdd" mat-raised-button type="submit"
+              (click)="actionForAdd()" [disabled]="!this.searchParam.value.session_id">
+              <mat-icon style="margin-right: 3px;">add_circle</mat-icon>
+              <span>Add</span>
+            </button>
+          </div>
+        </div>
+        <div class="app-panel-body">
+          <app-custom-table [table_data_api]="'class/offered-class'" [table_structure]="tableStructure"
+            [search_param]="searchParam.value" [forEdutube]="true" [table_buttons]="tableButtons"
+            (actions)="actionFromTables($event)" [reload]="table_reload" [first_reload_off]="first_reload_off"></app-custom-table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

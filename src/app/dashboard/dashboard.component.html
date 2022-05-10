@@ -1,0 +1,20 @@
+<!-- <router-outlet></router-outlet> -->
+<mat-sidenav-container class="side-navbar" (backdropClick)="backdropCheck()" autosize>
+  <mat-sidenav #snav [mode]="mode" [ngStyle]="opened || (!opened && isOver) ? {'width': '260px'} : {'width': '120px'}"
+    [opened]="sidebarOpen" [fixedInViewport]="true" (mouseover)="isOver = true;" (mouseout)="isOver = false;">
+    <app-sidebar [sidebar_header]="'School-Portal'" [displayName]="displayName" [menuContentToggle]="opened"
+      [mouseIsOver]="isOver" (closeNavBar)="closeNavBar($event)" [menuList]="menuList"></app-sidebar>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <app-header id="header-option"   [displayName]="displayName" (navBarOpenEvent)="navBarOpenEvent($event)"
+      (navPosition)="navPosition($event)">
+    </app-header>
+    <div class="dashboard-main-section">
+      <router-outlet></router-outlet>
+    </div>
+    <app-footer [menuContentToggle]="opened" [mouseIsOver]="isOver" [displayName]="displayName"></app-footer>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+<!-- 300px 100px -->
+

@@ -1,0 +1,146 @@
+<mat-dialog-content class="mat-typography">
+  <div class="page-layout simple left-sidebar inner-sidebar inner-scroll">
+    <div class="content">
+      <div class="center p-24 pb-56">
+        <div class="app-panel-wrapper mat-white-bg mat-elevation-z2">
+
+          <div class="app-panel-header">
+            <div class="app-panel-title">
+              <div class="panel-header-left">
+                <mat-icon>library_books</mat-icon>
+                <h3>{{data.data?'Edit':'Add'}} Union Parishad</h3>
+              </div>
+            </div>
+            <div class="panel-header-right">
+              <button mat-button color="secondary" [mat-dialog-close]="null">
+                <mat-icon style="margin-right: 3px;">keyboard_arrow_left</mat-icon>
+                <span>Cancel</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="app-panel-body">
+            <form [formGroup]="formItemsData" name="invcategoryForm" novalidate style="margin: 0 auto;">
+              <div class="row">
+                <div class="col-md-6">
+                  <mat-form-field>
+                    <mat-label>Division</mat-label>
+                    <input matInput id="division_code" type="text" formControlName="division" required
+                      [matAutocomplete]="autoDiv" placeholder="Enter Division">
+                    <mat-autocomplete #autoDiv="matAutocomplete" (optionSelected)="getDistrictDropdown(true)"
+                      [displayWith]="displayFunction('en_name')" (closed)="startValidationData(formItemsData, 'division_code', 'division')">
+                      <mat-option *ngFor="let dropdownData of divisionDropdown | async" [value]="dropdownData">
+                        {{ dropdownData.en_name }}
+                      </mat-option>
+                    </mat-autocomplete>
+                    <mat-error *ngIf="formItemsData.get('division_code')?.hasError('customError')">
+                      {{ formItemsData.get('division_code')?.errors?.customError.value }}
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-md-6">
+                  <mat-form-field>
+                    <mat-label>District</mat-label>
+                    <input matInput id="district_code" type="text" formControlName="district" required
+                      [matAutocomplete]="autoDis" placeholder="Enter District" [readonly]="!formItemsData.value.division_code">
+                    <mat-autocomplete #autoDis="matAutocomplete" (optionSelected)="getThanaDropdown(true)" 
+                      [displayWith]="displayFunction('en_name')" (closed)="startValidationData(formItemsData, 'district_code', 'district')">
+                      <mat-option *ngFor="let dropdownData of districtDropdown | async" [value]="dropdownData">
+                        {{ dropdownData.en_name }}
+                      </mat-option>
+                    </mat-autocomplete>
+                    <mat-error *ngIf="formItemsData.get('district_code')?.hasError('customError')">
+                      {{ formItemsData.get('district_code')?.errors?.customError.value }}
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-md-6">
+                  <mat-form-field>
+                    <mat-label>Upazila</mat-label>
+                    <input matInput id="thana_code" type="text" formControlName="thana" required
+                      [matAutocomplete]="autoTha" placeholder="Enter Upazila" [readonly]="!formItemsData.value.district_code">
+                    <mat-autocomplete #autoTha="matAutocomplete" (optionSelected)="setAutocompleteData(formItemsData, 'thana','thana_code','thana_code')"
+                      [displayWith]="displayFunction('en_name')" (closed)="startValidationData(formItemsData, 'thana_code', 'thana')">
+                      <mat-option *ngFor="let dropdownData of thanaDropdown | async" [value]="dropdownData">
+                        {{ dropdownData.en_name }}
+                      </mat-option>
+                    </mat-autocomplete>
+                    <mat-error *ngIf="formItemsData.get('thana_code')?.hasError('customError')">
+                      {{ formItemsData.get('thana_code')?.errors?.customError.value }}
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-md-6">
+                  <mat-form-field>
+                    <mat-label>Name (English)</mat-label>
+                    <input autocomplete="off" formControlName="en_name" id="title" matInput
+                      onfocus="this.removeAttribute('readonly');" placeholder="Enter Name" required>
+                    <mat-error *ngIf="formItemsData.get('en_name')?.hasError('customError')">
+                      {{ formItemsData.get('en_name')?.errors?.customError.value }}
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-md-6">
+                  <mat-form-field>
+                    <mat-label>Name (Bangla)</mat-label>
+                    <input autocomplete="off" formControlName="bn_name" id="title" matInput
+                      onfocus="this.removeAttribute('readonly');" placeholder="Enter Name" required>
+                    <mat-error *ngIf="formItemsData.get('title')?.hasError('customError')">
+                      {{ formItemsData.get('title')?.errors?.customError.value }}
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-md-6">
+                  <mat-form-field>
+                    <mat-label>Union Parishad Code</mat-label>
+                    <input autocomplete="off" formControlName="post_office_code" id="title" matInput
+                      onfocus="this.removeAttribute('readonly');" placeholder="Enter Union Parishad Code" required>
+                    <mat-error *ngIf="formItemsData.get('post_office_code')?.hasError('customError')">
+                      {{ formItemsData.get('post_office_code')?.errors?.customError.value }}
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-md-6" *ngIf="data.data">
+                  <mat-form-field>
+                    <mat-label>Status</mat-label>
+                    <mat-select formControlName="status" id="categoryStatus" required>
+                      <mat-option>---</mat-option>
+                      <mat-option *ngFor="let stat of statusDropdown" [value]="stat.id">
+                        {{stat.text}}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="formItemsData.get('status')?.hasError('customError')">
+                      {{ formItemsData.get('status')?.errors?.customError.value }}
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button color="warn" mat-raised-button (click)="resetAction()">
+    <mat-icon style="margin-right: 3px;">autorenew</mat-icon>
+    <span>Reset</span>
+  </button>
+  <button *ngIf="!loaderStatus" class="reference-button add-button" mat-raised-button (click)="validateForm()"
+    cdkFocusInitial>
+    <mat-icon style="margin-right: 3px;">apps</mat-icon>
+    <span>{{data.data?'Update':'Save'}}</span>
+  </button>
+  <button *ngIf="loaderStatus" class="reference-button" mat-raised-button (click)="validateForm()" cdkFocusInitial>
+    <mat-progress-spinner style="background-color: white; float: left" mode="indeterminate" diameter="37">
+    </mat-progress-spinner>
+  </button>
+</mat-dialog-actions>

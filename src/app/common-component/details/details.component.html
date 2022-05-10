@@ -1,0 +1,44 @@
+<mat-dialog-content>
+  <mat-card style="display: flex; justify-content: space-between; flex-direction: column;">
+    <div style="display: flex; justify-content: space-between; flex-direction: row;">
+      <div class="mat-card-header-text">
+        <mat-card-title>{{insertData.title}}</mat-card-title>
+        <mat-card-subtitle *ngFor="let sub of insertData.subtitle">
+          {{sub}}
+        </mat-card-subtitle>
+      </div>
+      <mat-card-actions>
+        <button style="background-color: rgba(244,67,54,1)" mat-mini-fab (click)="closeSelf()">
+          <mat-icon>highlight_off</mat-icon>
+        </button>
+      </mat-card-actions>
+    </div>
+    <mat-card-content style="display: flex; flex-flow: row wrap">
+      <!-- {{baseUrl+insertData.image | json}} -->
+      <img *ngIf="insertData.image" class="col-md-5" style="margin-right: 10px;" mat-card-image [src]="insertData.static_image ? insertData.static_image : baseUrl+insertData.image" (click)="goLarge()" />
+      <div [ngClass]="insertData.image?'col-md-6':'col-md-12'" *ngIf="insertData.table" [ngStyle]="getStyleTab('column')">
+        <div *ngFor="let other of others; let index=index;" [ngStyle]="getStyleTab('row')">
+          <div [ngStyle]="getStyleRow(index)" class="col-md-4" style="font-weight: bold">
+            {{other.key||other.key=='undefined'?other.key:''}}
+          </div>
+          <div [ngStyle]="getStyleRow(index)" class="col-md-8">
+            {{other.value||other.value=='undefined'?other.value:''}}
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12" style="margin: 5px; margin-top: 10px" *ngFor="let desk of insertData.description">
+        <span style="font-size: large; font-weight: bold">{{desk.title}}</span>
+        <div [innerHTML]="desk.content ? desk.content : notFoundMessage(desk.title)">
+        </div>
+      </div>
+
+      <div class="col-md-12" style="margin: 5px; margin-top: 10px" *ngFor="let desk of insertData.comments">
+        <div class="col-md-6">
+          <span style="font-size: large; font-weight: bold">{{desk.title}}</span>
+          <div [innerHTML]="desk.comments ? desk.comments : notFoundMessage(desk.title)">
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</mat-dialog-content>

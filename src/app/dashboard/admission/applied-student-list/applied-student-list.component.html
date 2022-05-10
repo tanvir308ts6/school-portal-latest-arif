@@ -1,0 +1,168 @@
+<div class="page-layout simple left-sidebar inner-sidebar inner-scroll">
+  <div class="content">
+    <div class="center pb-56">
+      <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Custom Search Panel
+          </mat-panel-title>
+          <mat-panel-description>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <div>
+          <form [formGroup]="searchParam" novalidate style="margin: 0 auto;">
+            <div class="row">
+              <div class="col-md-6">
+                <mat-form-field>
+                  <mat-label>Name(In English)</mat-label>
+                  <input autocomplete="off" formControlName="name_en" id="created_by" matInput
+                    onfocus="this.removeAttribute('readonly');" placeholder="Enter (In English)">
+                </mat-form-field>
+              </div>
+              <div class="col-md-6">
+                <mat-form-field>
+                  <mat-label>Name(In Bangla)</mat-label>
+                  <input autocomplete="off" formControlName="name_bn" id="created_by" matInput
+                    onfocus="this.removeAttribute('readonly');" placeholder="Enter Name(In Bangla)">
+                </mat-form-field>
+              </div>
+              <div class="col-md-6">
+                <mat-form-field>
+                  <mat-label>Class</mat-label>
+                  <mat-select type="number" formControlName="class_id" id="categoryInstitute"
+                    (selectionChange)="getClassId($event)">
+                    <mat-option>---</mat-option>
+                    <mat-option *ngFor="let class of classDropdown" [value]="class.id">
+                      {{class.title}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6">
+                <mat-form-field>
+                  <mat-label>Email</mat-label>
+                  <input autocomplete="off" formControlName="email" id="email" matInput
+                    onfocus="this.removeAttribute('readonly');" placeholder="Enter email">
+                </mat-form-field>
+              </div>
+              <div class="col-md-6">
+                <mat-form-field>
+                  <mat-label>Contact No</mat-label>
+                  <input autocomplete="off" formControlName="contact_no" id="contact_no" matInput
+                    onfocus="this.removeAttribute('readonly');" placeholder="Enter Contact No">
+                </mat-form-field>
+              </div>
+              <div class="col-md-6">
+                <mat-form-field>
+                  <mat-label>Admission Test Roll</mat-label>
+                  <input autocomplete="off" formControlName="admission_roll" id="admission_roll" matInput
+                    onfocus="this.removeAttribute('readonly');" placeholder="Enter Admission Test Roll">
+                </mat-form-field>
+              </div>
+              <!-- <div class="col-md-6">
+                <mat-form-field>
+                  <mat-label> Applicants status</mat-label>
+                  <mat-select type="number" formControlName="applicants_status" id="categoryInstitute">
+                    <mat-option>---</mat-option>
+                    <mat-option *ngFor="let item of applicationStatusDropdown" [value]="item.text">
+                      {{item.text}}
+                    </mat-option>
+                  </mat-select>
+
+                </mat-form-field>
+              </div> -->
+              <div class="col-md-6">
+                <mat-form-field>
+                  <mat-label> Apply Process</mat-label>
+                  <mat-select type="number" formControlName="apply_process" id="categoryInstitute">
+                    <mat-option>---</mat-option>
+                    <mat-option *ngFor="let item of applicationProcessDropdown" [value]="item.text">
+                      {{item.text}}
+                    </mat-option>
+                  </mat-select>
+
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="button-container" mat-dialog-actions align="center">
+              <button color="warn" mat-raised-button class="cancelBtnDialog mr-2" (click)="resetSearch()"
+                id="cancelBtnDialog">
+                <mat-icon>restore</mat-icon>Reset
+              </button>
+              <button color="primary" mat-raised-button class="yesBtnDialog ml-2" (click)="getDataFromApi()"
+                id="yesBtnDialog" cdkFocusInitial>
+                <mat-icon>search</mat-icon>Search
+              </button>
+            </div>
+          </form>
+        </div>
+      </mat-expansion-panel>
+      <div class="app-panel-wrapper mat-white-bg mat-elevation-z2">
+        <div class="app-panel-header">
+          <div class="app-panel-title">
+            <div class="panel-header-left">
+              <mat-icon>supervisor_account</mat-icon>
+              <h3>Applicant List</h3>
+            </div>
+          </div>
+          <div class="panel-header-right">
+            <button *ngIf="foundAdmissionStat && searchParam.value.class_id"
+              class="reference-button add-button mt-16 mt-sm-0 mr-3" id="courseAdd" mat-raised-button type="submit"
+              (click)="downloadEligibleForAdmissionList()">
+              <mat-icon style="margin-right: 3px;">get_app</mat-icon>
+              <span>Download Eligible student for admission</span>
+            </button>
+            <button *ngIf="foundAdmissionTestStat && searchParam.value.class_id"
+              class="reference-button add-button mt-16 mt-sm-0 mr-3" id="courseAdd" mat-raised-button type="submit"
+              (click)="downloadEligibleForAdmissionTestList()">
+              <mat-icon style="margin-right: 3px;">get_app</mat-icon>
+              <span>Download Eligible student for admission test</span>
+            </button>
+            <button *ngIf="currentTab === 2 || currentTab === 0" mat-raised-button class="reference-button add-button" id="apply-student" (click)="actionForAdmissionApply()">
+              <mat-icon class="mr-2">add_circle</mat-icon>
+              <span>Add New Applicant</span>
+            </button>
+          </div>
+        </div>
+        <mat-tab-group (selectedTabChange)="actionForTabChange($event)">
+          <mat-tab>
+            <ng-template mat-tab-label>
+              All
+            </ng-template>
+          </mat-tab>
+          <mat-tab>
+            <ng-template mat-tab-label>
+              Registered
+            </ng-template>
+          </mat-tab>
+          <mat-tab>
+            <ng-template mat-tab-label>
+              Applied
+            </ng-template>
+          </mat-tab>
+          <mat-tab>
+            <ng-template mat-tab-label>
+              Eligible for admission
+            </ng-template>
+          </mat-tab>
+          <mat-tab>
+            <ng-template mat-tab-label>
+              Eligible for admission test
+            </ng-template>
+          </mat-tab>
+          <mat-tab>
+            <ng-template mat-tab-label>
+              Rejected
+            </ng-template>
+          </mat-tab>
+        </mat-tab-group>
+        <div class="app-panel-body">
+           <app-custom-table [table_data_api]="'admission/manual-application'" [table_structure]="tableStructure"
+            [search_param]="searchParam.value" [forEdutube]="true" [table_buttons]="tableButtons"
+            (actions)="actionFromTables($event)" [reload]="table_reload">
+          </app-custom-table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

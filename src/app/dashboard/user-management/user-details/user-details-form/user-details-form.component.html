@@ -1,0 +1,18 @@
+<div class="row">
+  <div class="col-md-12" *ngFor="let pTable of parentTable; let pI = index;">
+    <div>
+      <h2 style="text-align: center;" class="mt-4">{{pTable.title}}</h2>
+      <div class="flex-row">
+        <div style="width: 25%" class="mr-2">
+          <app-custom-image *ngIf="hasKey('image', pTable)" [cus_id]="pI+1" [url_id]="pTable.image" [cus_style]="style"></app-custom-image>
+        </div>
+        <table style="width: 70%; height: fit-content;">
+          <tr [ngClass]="cI % 2 == 0 ? 'even-row' : 'odd-row'" *ngFor="let data1 of objectToArray(pTable.data); let cI = index;">
+            <th class="pl-2">{{data1[0]}}</th>
+            <td class="pl-2">{{data1[1] ?? '------------------------'}}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

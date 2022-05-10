@@ -1,0 +1,194 @@
+<div class="page-layout simple left-sidebar inner-sidebar inner-scroll">
+  <div class="content">
+    <div class="center pb-56">
+      <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Custom Search Panel
+          </mat-panel-title>
+          <div>
+            <mat-icon *ngIf="panelOpenState">keyboard_arrow_up</mat-icon>
+            <mat-icon *ngIf="!panelOpenState">keyboard_arrow_down</mat-icon>
+          </div>
+          <mat-panel-description>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <div>
+          <form [formGroup]="searchParam" novalidate style="margin: 0 auto;">
+            <div class="row">
+              <div class="col-md-6">
+                <mat-form-field>
+                  <mat-label>Name</mat-label>
+                  <input autocomplete="off" formControlName="name" id="name" matInput
+                  onfocus="this.removeAttribute('readonly');" placeholder="Enter Title">
+                </mat-form-field>
+              </div>
+              <div class="col-md-6">
+                <mat-form-field>
+                  <mat-label>Roll</mat-label>
+                  <input autocomplete="off" formControlName="class_roll" id="roll" matInput
+                  onfocus="this.removeAttribute('readonly');" placeholder="Enter name">
+                </mat-form-field>
+              </div>
+              <div class="col-md-6">
+                <mat-form-field>
+                  <mat-label>Class</mat-label>
+                  <mat-select type="number" formControlName="class_id" id="categoryInstitute" (selectionChange)="getDataFromApi()">
+                    <mat-option>---</mat-option>
+                    <mat-option *ngFor="let class of classDropdown" [value]="class.id">
+                      {{class.title}}
+                    </mat-option>
+                  </mat-select>
+
+                </mat-form-field>
+              </div>
+              <div class="col-md-6">
+                <mat-form-field>
+                  <mat-label>Section</mat-label>
+                  <mat-select formControlName="section_id" id="categoryStatus">
+                    <mat-option>---</mat-option>
+                    <mat-option *ngFor="let stat of sectionDropdown" [value]="stat.id">
+                      {{stat?.title}}-{{stat.class?.title}}
+                    </mat-option>
+                  </mat-select>
+
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="button-container" mat-dialog-actions align="center">
+              <button color="warn" mat-raised-button class="cancelBtnDialog mr-2" (click)="resetSearch()"
+              id="cancelBtnDialog">
+              <mat-icon>restore</mat-icon>Reset
+            </button>
+            <button color="primary" mat-raised-button class="yesBtnDialog ml-2" (click)="getDataFromApi()"
+            id="yesBtnDialog" cdkFocusInitial>
+            <mat-icon>search</mat-icon>Search
+          </button>
+        </div>
+      </form>
+    </div>
+
+  </mat-expansion-panel>
+  <div class="app-panel-wrapper mat-white-bg mat-elevation-z2">
+    <div class="app-panel-header">
+      <div class="app-panel-title">
+        
+        <div class="panel-header-left">
+         <mat-icon>supervisor_account</mat-icon>
+         <!-- <mat-form-field appearance="outline" class="col-md-10 mt-3">
+          <mat-label>Session</mat-label>
+          <mat-select (selectionChange)="getDataFromApi()"
+          [(ngModel)]="session_id" id="categoryStatus">
+          <mat-option>---</mat-option>
+          <mat-option *ngFor="let stat of sessionDropdown" [value]="stat.id">
+            {{stat.title}}
+          </mat-option>
+        </mat-select>
+
+      </mat-form-field> -->
+      
+      
+      <h3>Student Enrollment</h3>
+    </div>
+  </div>
+  <div class="panel-header-right">
+            <!-- <button *ngIf="parentCheck" class="reference-button add-button mt-16 mt-sm-0 mr-2" id="courseAdd" mat-raised-button type="submit"
+                (click)="actionForEnrollStudent()">
+                <mat-icon style="margin-right: 3px;">add_circle</mat-icon>
+                <span>Enroll Student</span>
+              </button> -->
+              <button [disabled]="!searchParam.value.class_id" class="reference-button add-button mt-16 mt-sm-0" id="courseAdd" mat-raised-button type="submit"
+              (click)="actionForAdd('Promotion')" style="margin-right: 3px;">
+              <mat-icon style="margin-right: 3px;">add_circle</mat-icon>
+              <span>Promote</span>
+            </button>
+            <button [disabled]="!searchParam.value.class_id" class="reference-button add-button mt-16 mt-sm-0" id="courseAdd" mat-raised-button type="submit"
+              (click)="actionForAdd('Not Promoted')">
+              <mat-icon style="margin-right: 3px;">add_circle</mat-icon>
+              <span>Not Promote</span>
+            </button>
+          </div>
+        </div>
+        <div class="app-panel-body">
+          <div class="table-body" style="flex-direction: column">
+            <mat-progress-bar *ngIf="loaderStatus" mode="indeterminate"></mat-progress-bar>
+            <table [dataSource]="dataSource" class="table-list" mat-table>
+
+              <ng-container matColumnDef="checkbox">
+                <th *matHeaderCellDef mat-header-cell>
+                  <!-- {{parentCheck}} -->
+                  <mat-checkbox type="checkbox" [(ngModel)]="parentCheck" (change)="onbgclick($event)"></mat-checkbox>
+                </th>
+                <td *matCellDef="let element" mat-cell>
+                  <!-- {{element.check}} -->
+                  <mat-checkbox type="checkbox" [(ngModel)]="element.check" (change)="onSingleclick(element,$event)"
+                  class="checklist-leaf-node"></mat-checkbox>
+                </td>
+              </ng-container>
+              <!-- Id Column -->
+
+              <ng-container matColumnDef="id">
+                <th *matHeaderCellDef mat-header-cell> No. </th>
+                <td *matCellDef="let i = index;" mat-cell> {{i + paginateStartNo + 1}} </td>
+              </ng-container>
+
+              <!-- Title Column -->
+              <ng-container matColumnDef="name">
+                <th *matHeaderCellDef mat-header-cell>Name</th>
+                <td *matCellDef="let element;" mat-cell> {{element.name}} </td>
+              </ng-container>
+              <ng-container matColumnDef="roll">
+                <th *matHeaderCellDef mat-header-cell>Roll</th>
+                <td *matCellDef="let element;" mat-cell>
+                  {{element?.class_roll}}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="class">
+                <th *matHeaderCellDef mat-header-cell>Class</th>
+                <td *matCellDef="let element;" mat-cell>
+                  {{element?.academic_class?.title}}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="section">
+                <th *matHeaderCellDef mat-header-cell>Section</th>
+                <td *matCellDef="let element;" mat-cell>
+                  {{element?.section?.title}}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="status">
+                <th *matHeaderCellDef mat-header-cell>Enrollment Status </th>
+                <td *matCellDef="let element;" mat-cell>
+                  {{element.log?.enrollment_process}}
+                </td>
+
+              </ng-container>
+              <ng-container matColumnDef="actions">
+                <th *matHeaderCellDef mat-header-cell> Action</th>
+                <td *matCellDef="let element" mat-cell>
+                  <button matTooltip="Section Change" id="locationDelete" mat-icon-button
+                  (click)="actionForEdit(element)">
+                  <mat-icon class="icon-delete">settings</mat-icon>
+                </button>
+                
+              </td>
+            </ng-container>
+                    <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+                    <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
+                  </table>
+                  <table style="margin-top: 20px;">
+                    <tr *ngIf="!dataSource.data.length">
+                      <td style="text-align: center;" [attr.colspan]="displayedColumns.length">
+                        <p style="font-size: medium; "> <b>No Data Available</b> </p>
+                      </td>
+                    </tr>
+                  </table>
+                  <mat-paginator #paginator (page)="changePagination($event)" [pageSizeOptions]="[10, 20, 50, 100]"
+                  showFirstLastButtons [length]="total" [pageSize]="size">
+                </mat-paginator>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>

@@ -1,0 +1,53 @@
+<mat-dialog-content class="mat-typography">
+  <div class="page-layout simple left-sidebar inner-sidebar inner-scroll">
+    <div class="content">
+      <div class="center p-24 pb-56">
+        <div class="app-panel-wrapper mat-white-bg mat-elevation-z2">
+          <div class="app-panel-header">
+            <div class="app-panel-title">
+              <div class="panel-header-left">
+                <mat-icon>library_books</mat-icon>
+                <h3>Event Details</h3>
+              </div>
+            </div>
+            <div class="panel-header-right">
+              <button mat-button color="secondary" [mat-dialog-close]="null">
+                <mat-icon style="margin-right: 3px;">keyboard_arrow_left</mat-icon>
+                <span>Cancel</span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="app-panel-body">
+          <app-custom-iframe [url_id]="data?.data?.attachment_id" [cus_id]="1"
+            [cus_style]="{width: '100%', height: '400px'}"></app-custom-iframe>
+          <div class="col-md-12 row">
+			  <app-custom-image [url_id]="data?.data?.cover_photo_id" [cus_id]="1" [cus_div_class]="['col-md-4']" [cus_class]="['col-md-12']">
+			  </app-custom-image>
+			<table class="col-md-8">
+				<tr>
+				  <td>Title</td>
+				  <td>{{data?.data?.title}}</td>
+				</tr>
+				<tr>
+				  <td>Published Date</td>
+				  <td>{{data?.data?.published_date}}</td>
+				</tr>
+				<tr>
+				  <td>Order</td>
+				  <td>{{data?.data?.order}}</td>
+				</tr>
+				<tr>
+				  <td><b>Description</b></td>
+				  <td>
+					<div [innerHTML]="data.data.description">
+					</div>
+				  </td>
+				</tr>
+			  </table>
+		  </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>

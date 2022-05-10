@@ -1,0 +1,13 @@
+<div mat-dialog-content>
+  <p>{{data?.title}}</p>
+</div>
+<div class="button-container" mat-dialog-actions align="center">
+  <button mat-button class="cancelBtnDialog" id="cancelBtnDialog" (click)="closeModal()">
+    <mat-icon>{{data?.leftBtnIcon}}</mat-icon> {{data?.leftBtn}}</button>
+  <button mat-button class="yesBtnDialog" id="yesBtnDialog" (click)="onYesClick()" cdkFocusInitial>
+    <mat-icon *ngIf="!loaderStatus">{{data?.rightBtnIcon}}</mat-icon>
+    <mat-progress-spinner *ngIf="loaderStatus" style="background-color: white; float: left" mode="indeterminate" diameter="37"></mat-progress-spinner>
+    {{data?.rightBtn}}
+  </button>
+  <button *ngIf="data.leftBtn == 'Reject'" mat-button (click)="endProcess()"> <mat-icon>keyboard_arrow_left</mat-icon> Cancel</button>
+</div>

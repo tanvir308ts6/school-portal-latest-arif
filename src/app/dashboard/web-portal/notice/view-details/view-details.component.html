@@ -1,0 +1,37 @@
+<mat-dialog-content class="mat-typography">
+  <div class="page-layout simple left-sidebar inner-sidebar inner-scroll">
+    <div class="content">
+      <div class="center p-24 pb-56">
+        <div class="app-panel-wrapper mat-white-bg mat-elevation-z2">
+          <div class="app-panel-header">
+            <div class="app-panel-title">
+              <div class="panel-header-left">
+                <mat-icon>library_books</mat-icon>
+                <h3>Notice Details</h3>
+              </div>
+            </div>
+            <div class="panel-header-right">
+              <button mat-button color="secondary" [mat-dialog-close]="null">
+                <mat-icon style="margin-right: 3px;">keyboard_arrow_left</mat-icon>
+                <span>Cancel</span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="app-panel-body">
+          <app-custom-iframe [url_id]="data?.data?.attachment_id" [cus_id]="1"
+            [cus_style]="{width: '100%', height: '400px'}"></app-custom-iframe>
+          <table>
+            <tr>
+              <td><b>Description</b></td>
+              <td>
+                <div [innerHTML]="data.data.description">
+                </div>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>

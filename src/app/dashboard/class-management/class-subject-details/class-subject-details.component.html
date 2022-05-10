@@ -1,0 +1,167 @@
+<div class="page-layout simple left-sidebar inner-sidebar inner-scroll">
+  <div class="content">
+    <div class="center pb-56">
+      <div class="app-panel-wrapper mat-white-bg mat-elevation-z2">
+        <div class="app-panel-header">
+          <div class="app-panel-title">
+            <div class="panel-header-left">
+              <mat-icon>supervisor_account</mat-icon>
+              <mat-form-field appearance="outline" class="col-md-10 mt-3">
+                <mat-label>Class Subject</mat-label>
+                <mat-select [(ngModel)]="class_unique_code" (selectionChange)="changeRoute()">
+                  <mat-option>---</mat-option>
+                  <mat-option *ngFor="let class_sub of subjectDropdown" [value]="class_sub">
+                    {{class_sub?.class_title}} {{class_sub?.subject_title}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+              <h3>Details</h3>
+            </div>
+          </div>
+          <div class="panel-header-right">
+          </div>
+        </div>
+        <div class="app-panel-body">
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-md-8">
+                <div class="row">
+                  <div class="col-md-6 p-1">
+                    <mat-card class="col-md-12">
+                      <mat-card-header>
+                        <div mat-card-avatar>
+                          <mat-icon>details</mat-icon>
+                        </div>
+                        <mat-card-title-group>
+                          <mat-card-title>Subject Details</mat-card-title>
+                          <mat-card-subtitle></mat-card-subtitle>
+                          <div class="ml-4">
+                            <mat-icon>chat</mat-icon>
+                          </div>
+                        </mat-card-title-group>
+                      </mat-card-header>
+                      <mat-card-content>
+                        <table>
+                          <tr>
+                            <th>Class</th>
+                            <td>{{class_unique_code?.class_title}}</td>
+                          </tr>
+                          <tr>
+                            <th>Group</th>
+                            <td>{{class_unique_code?.group_title}}</td>
+                          </tr>
+                          <tr>
+                            <th>Session</th>
+                            <td>{{class_unique_code?.session_title}}</td>
+                          </tr>
+                          <tr>
+                            <th>Section</th>
+                            <td>{{class_unique_code?.section_title}}</td>
+                          </tr>
+                          <tr>
+                            <th>Shift</th>
+                            <td>{{class_unique_code?.shift_title}}</td>
+                          </tr>
+                          <tr>
+                            <th>Subject</th>
+                            <td>{{class_unique_code?.subject_title}}</td>
+                          </tr>
+                        </table>
+                      </mat-card-content>
+                      <mat-card-footer>
+                        <div class="col-md-12">
+                          <button mat-stroked-button color="primary" class="col-md-12 mb-2"
+                            (click)="reRouteToUrl('onl_lin')">
+                            Online Class Link
+                          </button>
+                        </div>
+                      </mat-card-footer>
+                    </mat-card>
+                  </div>
+                  <div class="col-md-6 p-1">
+                    <mat-card class="col-md-12" style="min-height: 249px;">
+                      <mat-card-header>
+                        <div mat-card-avatar>
+                          <mat-icon>mic</mat-icon>
+                        </div>
+                        <mat-card-title-group>
+                          <mat-card-title>Announcements</mat-card-title>
+                          <mat-card-subtitle></mat-card-subtitle>
+                        </mat-card-title-group>
+                      </mat-card-header>
+                      <mat-card-content>
+                      </mat-card-content>
+                    </mat-card>
+                  </div>
+                  <div class="col-md-12 p-1">
+                    <mat-card class="col-md-12" style="min-height: 229px;">
+                      <mat-tab-group (selectedTabChange)="tabChangeEvent($event)">
+                        <mat-tab>
+                          <ng-template mat-tab-label>
+                            <mat-icon>show_chart</mat-icon>
+                            Attendance
+                          </ng-template>
+                        </mat-tab>
+                        <mat-tab>
+                          <ng-template mat-tab-label>
+                            <mat-icon>bar_chart</mat-icon>
+                            Result
+                          </ng-template>
+                        </mat-tab>
+                      </mat-tab-group>
+                      <mat-card-content>
+                        <div *ngIf="current_graph_tab_index === 0">
+                          Attendance
+                        </div>
+                        <div *ngIf="current_graph_tab_index === 1">
+                          Result
+                        </div>
+                      </mat-card-content>
+                    </mat-card>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-4 p-1">
+                <mat-card class="col-md-12">
+                  <div class="col-md-12 p-4">
+                    <mat-card-title>Subject Material</mat-card-title>
+                    <button mat-stroked-button class="col-md-12" color="primary" (click)="reRouteToUrl('sub_mat')">
+                      Subject Material
+                    </button>
+                  </div>
+                  <div class="col-md-12 pl-4 pr-4">
+                    <mat-card-title>Exam/Quiz</mat-card-title>
+                    <button mat-stroked-button class="col-md-12" color="primary" (click)="reRouteToUrl('exa_qui')">
+                      Exam-Quiz
+                    </button>
+                  </div>
+                  <div class="col-md-12 p-4">
+                    <mat-card-title>Assignment</mat-card-title>
+                    <button mat-stroked-button class="col-md-12" color="primary" (click)="reRouteToUrl('ass_ign')">
+                      Assignment
+                    </button>
+                  </div>
+                </mat-card>
+                <mat-card class="col-md-12 mt-2">
+                  <mat-card-header>
+                    <mat-card-title>Teacher Student Panel</mat-card-title>
+                  </mat-card-header>
+                  <mat-card-content>
+                    <div class="col-md-12">
+                      <button mat-stroked-button color="primary" class="col-md-12 mb-2" (click)="reRouteToUrl('sub_tea')">
+                        Teacher List
+                      </button>
+                      <button mat-stroked-button color="primary" class="col-md-12 mb-2" (click)="reRouteToUrl('sub_stu')">
+                        Student List
+                      </button>
+                    </div>
+                  </mat-card-content>
+                </mat-card>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,83 @@
+<div class="app-panel-wrapper mat-white-bg mat-elevation-z2">
+  <div class="app-panel-header">
+    <div class="app-panel-title">
+      <div class="panel-header-left">
+        <mat-icon>supervisor_account</mat-icon>
+        <h3>Class Routine for </h3>
+        <form class="col-md-10" [formGroup]="searchParam" (submit)="getTableData()" novalidate style="margin: 0 auto;">
+          <div class="row">
+            <div class="col-md-2">
+              <mat-form-field appearance="outline">
+                <mat-label>Institute</mat-label>
+                <mat-select formControlName="institute_id">
+                  <mat-option>---</mat-option>
+                  <mat-option *ngFor="let dropdownData of instituteDropdown" [value]="dropdownData?.id">
+                    {{dropdownData?.name_en}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="searchParam.get('institute_id')?.hasError('customError')">
+                  {{ searchParam.get('institute_id')?.errors?.customError.value }}
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <mat-form-field appearance="outline">
+                <mat-label>Teacher</mat-label>
+                <mat-select formControlName="teacher_id">
+                  <mat-option>---</mat-option>
+                  <mat-option *ngFor="let dropdownData of teacherDropdown" [value]="dropdownData?.id">
+                    {{dropdownData?.name}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="searchParam.get('teacher_id')?.hasError('customError')">
+                  {{ searchParam.get('teacher_id')?.errors?.customError.value }}
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <!-- <div class="col-md-2">
+              <mat-form-field appearance="outline">
+                <mat-label>Session</mat-label>
+                <mat-select formControlName="session_id">
+                  <mat-option>---</mat-option>
+                  <mat-option *ngFor="let dropdownData of sessionDropdown" [value]="dropdownData?.id">
+                    {{dropdownData?.title}}
+                  </mat-option>
+                </mat-select>
+                <mat-error *ngIf="searchParam.get('session_id')?.hasError('customError')">
+                  {{ searchParam.get('session_id')?.errors?.customError.value }}
+                </mat-error>
+              </mat-form-field>
+            </div> -->
+          </div>
+        </form>
+        <div class="col-md-1">
+          <button mat-icon-button (click)="getTableData()">
+            <mat-icon>search</mat-icon>
+          </button>
+          <button mat-icon-button (click)="resetForm()">
+            <mat-icon>refresh</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="app-panel-body">
+    <div>
+      <table>
+        <tr *ngFor="let row of tableDatas; let pi = index;">
+          <ng-container *ngFor="let col of row; let ci = index;">
+            <th *ngIf="col?.table_type === 'header'">
+              {{col?.title}}
+            </th>
+            <td *ngIf="col?.table_type === 'data'">
+              {{col?.title}}
+            </td>
+            <td *ngIf="col?.table_type === 'null'">
+              
+            </td>
+          </ng-container>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>

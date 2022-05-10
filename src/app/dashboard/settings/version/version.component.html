@@ -1,0 +1,117 @@
+<div class="page-layout simple left-sidebar inner-sidebar inner-scroll">
+  <div class="content">
+    <div class="center pb-56">
+      <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Custom Search Panel
+          </mat-panel-title>
+          <div>
+            <mat-icon *ngIf="panelOpenState">keyboard_arrow_up</mat-icon>
+            <mat-icon *ngIf="!panelOpenState">keyboard_arrow_down</mat-icon>
+          </div>
+          <mat-panel-description>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <div>
+          <form [formGroup]="searchParam" novalidate style="margin: 0 auto;">
+            <div class="row">
+              <div class="col-md-6">
+                <mat-form-field>
+                  <mat-label>Title</mat-label>
+                  <input autocomplete="off" formControlName="title" id="categoryTitle" matInput
+                    onfocus="this.removeAttribute('readonly');" placeholder="Enter Title">
+                </mat-form-field>
+              </div>
+              <div class="col-md-6">
+                <mat-form-field>
+                  <mat-label>Address</mat-label>
+                  <input autocomplete="off" formControlName="address" id="categoryCode" matInput
+                    onfocus="this.removeAttribute('readonly');" placeholder="Enter address">
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="button-container" mat-dialog-actions align="center">
+              <button color="warn" mat-raised-button class="cancelBtnDialog mr-2" (click)="resetSearch()"
+                id="cancelBtnDialog">
+                <mat-icon>restore</mat-icon>Reset
+              </button>
+              <button color="primary" mat-raised-button class="yesBtnDialog ml-2" (click)="reloadTable()"
+                id="yesBtnDialog" cdkFocusInitial>
+                <mat-icon>search</mat-icon>Search
+              </button>
+            </div>
+          </form>
+        </div>
+
+      </mat-expansion-panel>
+      <div class="app-panel-wrapper mat-white-bg mat-elevation-z2">
+        <div class="app-panel-header">
+          <div class="app-panel-title">
+            <div class="panel-header-left">
+              <mat-icon>supervisor_account</mat-icon>
+              <h3>Version Configuration</h3>
+            </div>
+          </div>
+          <div class="panel-header-right">
+            <button class="reference-button add-button mt-16 mt-sm-0" id="courseAdd" mat-raised-button type="submit"
+              (click)="actionForAdd()">
+              <mat-icon style="margin-right: 3px;">add_circle</mat-icon>
+              <span>Add</span>
+            </button>
+          </div>
+        </div>
+        <div class="app-panel-body">
+          <!-- <div class="table-body" style="flex-direction: column">
+              <mat-progress-bar *ngIf="loaderStatus" mode="indeterminate"></mat-progress-bar>
+              <table [dataSource]="dataSource" class="table-list" mat-table>
+  
+                <ng-container matColumnDef="id">
+                  <th *matHeaderCellDef mat-header-cell> No. </th>
+                  <td *matCellDef="let i = index;" mat-cell> {{i + paginateStartNo + 1}} </td>
+                </ng-container>
+  
+                <ng-container matColumnDef="title">
+                  <th *matHeaderCellDef mat-header-cell>title</th>
+                  <td *matCellDef="let element;" mat-cell> {{element.title}} </td>
+                </ng-container>
+  
+                <ng-container matColumnDef="status">
+                  <th *matHeaderCellDef mat-header-cell> Status </th>
+                  <td *matCellDef="let element" mat-cell>
+                    <div *ngIf="element.status==1">Active</div>
+                    <div *ngIf="element.status==0">Inactive</div>
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="actions">
+                  <th *matHeaderCellDef mat-header-cell> Action</th>
+                  <td *matCellDef="let element" mat-cell>
+                    <button matTooltip="Edit" id="locationEdit" mat-icon-button (click)="actionForEdit(element)">
+                      <mat-icon class="icon-edit">edit</mat-icon>
+                    </button>
+                  </td>
+                </ng-container>
+                <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+                <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
+              </table>
+              <table style="margin-top: 20px;">
+                <tr *ngIf="!dataSource.data.length">
+                  <td style="text-align: center;" [attr.colspan]="displayedColumns.length">
+                    <p style="font-size: medium; "> <b>No Data Available</b> </p>
+                  </td>
+                </tr>
+              </table>
+              <mat-paginator
+                #paginator (page)="changePagination($event)" [pageSizeOptions]="[10, 20, 50, 100]"
+                showFirstLastButtons [length]="total" [pageSize]="size">
+              </mat-paginator>
+            </div> -->
+          <app-custom-table [table_data_api]="'settings/version'" [table_structure]="tableStructure"
+            [search_param]="searchParam.value" [forEdutube]="true" [table_buttons]="tableButtons"
+            (actions)="actionFromTables($event)" [reload]="table_reload">
+          </app-custom-table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

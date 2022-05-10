@@ -1,0 +1,101 @@
+<mat-dialog-content class="mat-typography">
+	<div class="page-layout simple left-sidebar inner-sidebar inner-scroll">
+		<div class="content">
+			<div class="center p-24 pb-56">
+				<div class="app-panel-wrapper mat-white-bg mat-elevation-z2">
+
+					<div class="app-panel-header">
+						<div class="app-panel-title">
+							<div class="panel-header-left">
+								<mat-icon>library_books</mat-icon>
+								<h3>Teacher Details</h3>
+							</div>
+						</div>
+						<div class="panel-header-right">
+							<button mat-button color="secondary" [mat-dialog-close]="null">
+								<mat-icon style="margin-right: 3px;">keyboard_arrow_left</mat-icon>
+								<span>Cancel</span>
+							</button>
+						</div>
+					</div>
+				</div>
+				<div class="app-panel-body">
+					<table>
+						
+						<tr>
+							<td><b>Name</b></td>
+							<td>{{data.data.name}}</td>
+						</tr>
+						<tr>
+							<td><b>Name</b></td>
+							<td>{{data.data.name}}</td>
+						</tr>
+						<tr>
+							<td><b>Father name</b></td>
+							<td>{{data.data.father_name}}</td>
+						</tr>
+						<tr>
+							<td><b>Mother name</b></td>
+							<td>{{data.data.mother_name}}</td>
+						</tr>
+						<tr>
+							<td><b>Nationality</b></td>
+							<td>{{data.data.nationality}}</td>
+						</tr>
+						<tr>
+							<td><b>Email</b></td>
+							<td>{{data.data.email}}</td>
+						</tr>
+						<tr>
+							<td><b>Mobile no</b></td>
+							<td>{{data.data.mobile_no}}</td>
+						</tr>
+						<tr>
+							<td><b>Blood group</b></td>
+							<td>{{data.data.blood_group}}</td>
+						</tr>
+						<tr>
+							<td><b>Birth date</b></td>
+							<td>{{data.data.birth_date}}</td>
+						</tr>
+						<tr>
+							<td><b>Gender</b></td>
+							<td>{{data.data.gender}}</td>
+						</tr>
+						<tr>
+							<td><b>Present address</b></td>
+							<td> <div [innerHTML]="data.data.present_address">
+							</div></td>
+						</tr>
+						<tr>
+							<td><b>Permanent address</b></td>
+							<td>
+								<div [innerHTML]="data.data.permanent_address">
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td><b>Office room</b></td>
+							<td>{{data.data.office_room}}</td>
+						</tr>
+						<tr>
+							<td><b>Employee code</b></td>
+							<td>{{data.data.employee_code}}</td>
+						</tr>
+						<tr>
+							<td><b>Joining date</b></td>
+							<td>{{data.data.joining_date}}</td>
+						</tr>
+						<tr>
+							<td><b>Supervisor id</b></td>
+							<td>{{data.data.supervisor_id}}</td>
+						</tr>
+
+
+						
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</mat-dialog-content>

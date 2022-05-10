@@ -1,0 +1,11 @@
+<div style="display: flex; justify-content: space-between; padding: 10px; background-color: rgb(239, 243, 240);"  class="snackbar">
+    <div style="margin-top:8px;" *ngFor="let msg of showData">
+        {{msg[1]}}
+    </div>
+    <button style=" margin-left: 10px; background-color: red;color:#FFFFFF;" mat-button (click)="closeAction()">close</button>
+</div>
+
+<!-- <mat-form-field appearance="fill">
+    <mat-label>Message</mat-label>
+    <input matInput value="Disco party!" #message>
+</mat-form-field>   -->

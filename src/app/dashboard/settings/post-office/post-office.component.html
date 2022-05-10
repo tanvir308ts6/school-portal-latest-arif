@@ -1,0 +1,104 @@
+<div class="page-layout simple left-sidebar inner-sidebar inner-scroll">
+  <div class="content">
+    <div class="center pb-56">
+      <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Custom Search Panel
+          </mat-panel-title>
+          <div>
+            <mat-icon *ngIf="panelOpenState">keyboard_arrow_up</mat-icon>
+            <mat-icon *ngIf="!panelOpenState">keyboard_arrow_down</mat-icon>
+          </div>
+          <mat-panel-description>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <div>
+          <form [formGroup]="searchParam" novalidate style="margin: 0 auto;">
+            <div class="row">
+              <div class="col-md-6">
+                <mat-form-field>
+                  <mat-label>Name</mat-label>
+                  <input autocomplete="off" formControlName="en_name" id="categoryTitle" matInput
+                    onfocus="this.removeAttribute('readonly');" placeholder="Enter English Name">
+                </mat-form-field>
+              </div>
+              <div class="col-md-6">
+                <mat-form-field>
+                  <mat-label>Union Parishad Code</mat-label>
+                  <input autocomplete="off" formControlName="post_office_code" id="categoryTitle" matInput
+                    onfocus="this.removeAttribute('readonly');" placeholder="Enter Union Parishad Code">
+                </mat-form-field>
+              </div>
+              <div class="col-md-6">
+                <mat-form-field>
+                  <mat-label>Division</mat-label>
+                  <mat-select formControlName="division_code" type="number">
+                    <mat-option>---</mat-option>
+                    <mat-option *ngFor="let data of divisionDropdown" [value]="data.division_code">
+                      {{data.en_name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6">
+                <mat-form-field>
+                  <mat-label>District</mat-label>
+                  <mat-select formControlName="district_code" type="number">
+                    <mat-option>---</mat-option>
+                    <mat-option *ngFor="let data of districtDropdown" [value]="data.district_code">
+                      {{data.en_name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6">
+                <mat-form-field>
+                  <mat-label>Thana</mat-label>
+                  <mat-select formControlName="thana_code" type="number">
+                    <mat-option>---</mat-option>
+                    <mat-option *ngFor="let data of thanaDropdown" [value]="data.thana_code">
+                      {{data.en_name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="button-container" mat-dialog-actions align="center">
+              <button color="warn" mat-raised-button class="cancelBtnDialog mr-2" (click)="resetSearch()"
+                id="cancelBtnDialog">
+                <mat-icon>restore</mat-icon>Reset
+              </button>
+              <button color="primary" mat-raised-button class="yesBtnDialog ml-2" (click)="reloadTable()"
+                id="yesBtnDialog" cdkFocusInitial>
+                <mat-icon>search</mat-icon>Search
+              </button>
+            </div>
+          </form>
+        </div>
+      </mat-expansion-panel>
+      <div class="app-panel-wrapper mat-white-bg mat-elevation-z2">
+        <div class="app-panel-header">
+          <div class="app-panel-title">
+            <div class="panel-header-left">
+              <mat-icon>supervisor_account</mat-icon>
+              <h3>Union Parishad Configuration</h3>
+            </div>
+          </div>
+          <div class="panel-header-right">
+            <button class="reference-button add-button mt-16 mt-sm-0" id="courseAdd" mat-raised-button type="submit"
+              (click)="actionForAdd()">
+              <mat-icon style="margin-right: 3px;">add_circle</mat-icon>
+              <span>Add</span>
+            </button>
+          </div>
+        </div>
+        <div class="app-panel-body">
+          <app-custom-table [table_data_api]="'settings/post-office'" [table_structure]="tableStructure"
+            [search_param]="searchParam.value" [forEdutube]="true" [table_buttons]="tableButtons"
+            (actions)="actionFromTables($event)" [reload]="table_reload"></app-custom-table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

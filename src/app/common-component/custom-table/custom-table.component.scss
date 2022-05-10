@@ -1,0 +1,23 @@
+th, td {
+  padding-left: 13px !important;
+}
+.mat-column-Actions {
+  width: fit-content;
+  text-align: center !important;
+}
+.mat-column-id {
+  width: 64px;
+}
+.mat-header-row {
+  height: 36px;
+  background-color: rgba(90, 120, 150, 1);
+}
+.mat-header-cell {
+  color: rgba(255, 255, 255, 1) !important;
+}
+.mat-icon {
+  font-size: 20px;
+}
+.mat-button-disabled{
+  opacity: .3;
+}

@@ -1,0 +1,96 @@
+<div class="table-body" style="flex-direction: column">
+  <mat-progress-bar *ngIf="loaderStatus" mode="indeterminate" color="primary"></mat-progress-bar>
+  <table [dataSource]="dataSource" class="table-list" mat-table cdkDropList [cdkDropListData]="dataSource"
+    (cdkDropListDropped)="drop($event)" [cdkDropListDisabled]="!drag_drop">
+    <ng-container matColumnDef="{{table_structure.banned[hIndex]}}"
+      *ngFor="let column of table_structure.headers; let hIndex = index;">
+      <th mat-header-cell *matHeaderCellDef>
+        <ng-container *ngIf="column !== 'select'">
+          {{table_structure.banned[hIndex]}}
+        </ng-container>
+        <ng-container *ngIf="column === 'select'">
+          <mat-checkbox (change)="$event ? tableSelectEvent('master') : null"
+            [checked]="selection.hasValue() && isAllSelected()"
+            [indeterminate]="selection.hasValue() && !isAllSelected()">
+          </mat-checkbox>
+        </ng-container>
+      </th>
+      <td mat-cell *matCellDef="let element; let i = index;">
+        <div *ngIf="column !== 'actions' && column !== 'select'">
+          <ng-container *ngIf="column != 'id'">
+            <ng-container *ngIf="(column | typeCheck: 'function')">
+              {{(element | functionAccessor: column)}}
+            </ng-container>
+            <ng-container *ngIf="(column | typeCheck: 'string')">
+              {{(element | dataAccessor : column)}}
+            </ng-container>
+            <ng-container *ngIf="(column | typeCheck: 'object')">
+              <ng-container *ngIf="column?.type === 'input_field'">
+                <mat-form-field>
+                  <mat-label>{{column?.label}}</mat-label>
+                  <input [type]="column?.input_type" [id]="table_structure.banned[hIndex]+i"
+                    [attr.id]="table_structure.banned[hIndex]+i" [name]="table_structure.banned[hIndex]+i"
+                    autocomplete="off" [readonly]="isReadOnly(element)" [placeholder]="column?.placeholder"
+                    [(ngModel)]="element[column?.model]" matInput [required]="column?.required"
+                    [ngModelOptions]="{standalone: true}" (focusout)="actionEvent('select', selection.selected)">
+                  <mat-error>
+                    This Field is Required
+                  </mat-error>
+                </mat-form-field>
+              </ng-container>
+              <ng-container *ngIf="column?.type === 'select_field'">
+                <mat-form-field>
+                  <mat-label>{{column?.label}}</mat-label>
+                  <mat-select [id]="table_structure.banned[hIndex]+i" [attr.id]="table_structure.banned[hIndex]+i"
+                    [multiple]="column?.multiple" [disabled]="isReadOnly(element)" [required]="column?.required"
+                    [ngModelOptions]="{standalone: true}" [(ngModel)]="element[column?.model]"
+                    (selectionChange)="actionEvent('select', selection.selected)">
+                    <mat-option *ngIf="!column?.multiple">---</mat-option>
+                    <mat-option *ngFor="let dropdownData of dropdowns[column?.list]"
+                      [value]="dropdownData[column?.list_control]">
+                      {{dropdownData[column?.list_view]}}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error>
+                    This Field is Required
+                  </mat-error>
+                </mat-form-field>
+              </ng-container>
+            </ng-container>
+          </ng-container>
+          <ng-container *ngIf="column == 'id'">
+            {{ (i + paginateStartNo + 1) }}
+          </ng-container>
+        </div>
+        <div *ngIf="column === 'actions' && column !== 'select'">
+          <ng-container *ngFor="let btn of table_buttons; let i=index;">
+            <ng-container>
+              <button [matTooltip]="btn?.tooltip" [id]="'itemAction'+i" mat-icon-button
+                (click)="actionEvent(btn?.action, element)"
+                [disabled]="btn?.condition && (element | functionAccessor: btn?.condition)">
+                <mat-icon [color]="btn?.color" class="icon-edit">{{btn?.icon}}</mat-icon>
+              </button>
+            </ng-container>
+          </ng-container>
+        </div>
+        <mat-checkbox *ngIf="column !== 'actions' && column == 'select' && !element.no_select"
+          (click)="$event.stopPropagation()" (change)="$event ? tableSelectEvent('slave', element) : null"
+          [checked]="selection.isSelected(element)">
+        </mat-checkbox>
+      </td>
+    </ng-container>
+    <tr *matHeaderRowDef="table_structure.banned" mat-header-row></tr>
+    <tr *matRowDef="let row; columns: table_structure.banned;" [cdkDragDisabled]="!drag_drop" mat-row
+      cdkDragLockAxis="y" cdkDrag [cdkDragData]="row"></tr>
+  </table>
+  <table style="margin-top: 20px;">
+    <tr *ngIf="!dataSource.data.length">
+      <td style="text-align: center;" [attr.colspan]="table_structure.headers.length">
+        <p style="font-size: medium; "> <b>No Data Available</b> </p>
+      </td>
+    </tr>
+  </table>
+  <mat-paginator #paginator (page)="changePagination($event)" [pageSizeOptions]="[10, 20, 50, 100]" showFirstLastButtons
+    [length]="total" [pageSize]="size" [hidePageSize]="no_pagination_details">
+  </mat-paginator>
+</div>

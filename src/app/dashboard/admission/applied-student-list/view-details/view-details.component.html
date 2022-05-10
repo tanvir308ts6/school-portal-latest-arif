@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+</head>
+<body>
+	<div class="app-panel-header">
+		<div class="app-panel-title">
+			<div class="panel-header-left">
+				<mat-icon>library_books</mat-icon>
+				<h3>Student Details</h3>
+			</div>
+		</div>
+		<div class="panel-header-right">
+			<button *ngIf="data.data.applicants_status == 'Eligible for admission test'" class="reference-button add-button mt-16 mt-sm-0 mr-3" id="courseAdd" mat-raised-button type="submit"
+			(click)="downloadAdmitCard()" >
+			<mat-icon style="margin-right: 3px;">get_app</mat-icon>
+			<span>Download Admit Card</span>
+		</button>
+		<button class="reference-button add-button mt-16 mt-sm-0 mr-3" id="courseAdd" mat-raised-button type="submit"
+		(click)="downloadDetails()" >
+		<mat-icon style="margin-right: 3px;">get_app</mat-icon>
+		<span>Download Details</span>
+	</button>
+	<button mat-button color="secondary" [mat-dialog-close]="null">
+		<mat-icon style="margin-right: 3px;">keyboard_arrow_left</mat-icon>
+		<span>Cancel</span>
+	</button>
+</div>
+</div>
+
+
+<table>
+
+	<tr>
+		<td style="width:15%"><b>Name (English)</b></td>
+		<td>{{data.data?.name_en}}</td>
+		<td  style="width:15%"><b>Name (Bangla)</b></td>
+		<td>{{data.data?.name_bn}}</td>
+
+	</tr>
+	
+	<tr>
+		<td><b>Date of birth</b></td>
+		<td>{{data.data?.date_of_birth}}</td>
+		<td><b>Admission roll</b></td>
+		<td>{{data.data?.admission_roll}}</td>
+	</tr>
+	<tr>
+		<td><b>Admission Class</b></td>
+		<td>{{data.data?.admission_class?.class_title}}</td>
+		<td><b>Applicant's status</b></td>
+		<td>{{data.data?.applicants_status}}</td>
+	</tr>
+	<tr>
+		<td><b>Shift</b></td>
+		<td>{{data.data?.shift?.title}}</td>
+		<td><b>Version</b></td>
+		<td>{{data.data?.version?.title}}</td>
+	</tr>
+	<tr>
+		<td><b>Apply process</b></td>
+		<td>{{data.data?.apply_process}}</td>
+		<td><b>Branch</b></td>
+		<td>{{data.data?.branch?.title}}</td>
+	</tr>
+	<tr>
+		<td><b>Form fillup by</b></td>
+		<td>{{data.data?.form_fillup_by}}</td>
+		<td><b>Student live with</b></td>
+		<td>{{data.data?.live_with}}</td>
+	</tr>
+	<tr>
+		<td><b>Blood group</b></td>
+		<td>{{data.data?.blood_group}}</td>
+		<td><b>Crvs id</b></td>
+		<td>{{data.data?.crvs_id}}</td>
+	</tr>
+	<tr>
+		<td><b>Disability</b></td>
+		<td>{{data.data?.disability}}</td>
+		<td><b>Special medical condition</b></td>
+		<td>{{data.data?.special_medical_condition}}</td>
+	</tr>
+	<tr>
+		<td><b>Present address</b></td>
+		<td>
+			<ul><b>Home Location</b>:{{data.data?.present_address}}</ul>
+			<ul><b>Post office</b>:{{data.data?.present_post_office?.eng_name}}</ul>
+			<ul><b>District</b>:{{data.data?.present_district?.eng_name}}</ul>
+			<ul><b>Thana</b>:{{data.data?.present_thana?.eng_name}}</ul>
+			<ul><b>Division</b>:{{data.data?.present_division?.eng_name}}</ul>
+		</td>
+		<td><b>Permanent address</b></td>
+		<td>
+			<ul><b>Home Location</b>:{{data.data?.permanent_address}}</ul>
+			<ul><b>Post office</b>:{{data.data?.permanent_post_office?.eng_name}}</ul>
+			<ul><b>District</b>:{{data.data?.permanent_district?.eng_name}}</ul>
+			<ul><b>Thana</b>:{{data.data?.permanent_thana?.eng_name}}</ul>
+			<ul><b>Division</b>:{{data.data?.permanent_division?.eng_name}}</ul>
+		</td>
+
+	</tr>
+	
+	<tr>
+		<td><b>Religion</b></td>
+		<td>{{data.data?.religion}}</td>
+		<td><b>Email</b></td>
+		<td>{{data.data?.email}}</td>
+	</tr>
+	
+	<tr>
+		<td><b>Contact No</b></td>
+		<td>{{data.data?.contact_no}}</td>
+		<td><b>Nationality</b></td>
+		<td>{{data.data?.nationality}}</td>
+
+	</tr>
+	
+	<tr>
+		<td><b>Parental Information:({{data.data?.mother?.relationship.toUpperCase()}})</b></td>
+		<td>
+			<ul><b>Name(EN)</b>:{{data.data?.mother?.name_en}}</ul>
+			<ul><b>Name(BN)</b>:{{data.data?.mother?.name_bn}}</ul>
+			<ul><b>Profession</b>:{{data.data?.mother?.profession}}</ul>
+			<ul><b>Contact no</b>:{{data.data?.mother?.contact_no}}</ul>
+			<ul><b>Email</b>:{{data.data?.mother?.email}}</ul>
+
+
+		</td>
+		<td><b>Parental Information:({{data.data.father?.relationship.toUpperCase()}})</b></td>
+		<td>
+			<ul><b>Name(EN)</b>:{{data.data?.father?.name_en}}</ul>
+			<ul><b>Name(BN)</b>:{{data.data?.father?.name_bn}}</ul>
+			<ul><b>Profession</b>:{{data.data?.father?.profession}}</ul>
+			<ul><b>Contact no</b>:{{data.data?.father?.contact_no}}</ul>
+			<ul><b>Email</b>:{{data.data?.father?.email}}</ul>
+		</td>
+
+	</tr>
+	<tr>
+		<td><b>Gurdian Information:({{data.data.guardian?.relationship.toUpperCase()}})</b></td>
+		<td>
+			<ul><b>Name(EN)</b>:{{data.data?.guardian?.name_en}}</ul>
+			<ul><b>Name(BN)</b>:{{data.data?.guardian?.name_bn}}</ul>
+			<ul><b>Profession</b>:{{data.data?.guardian?.profession}}</ul>
+			<ul><b>Contact no</b>:{{data.data?.guardian?.contact_no}}</ul>
+			<ul><b>Email</b>:{{data.data?.guardian?.email}}</ul>
+
+
+		</td>
+		<td><b>Emergency contact:({{data.data?.emergency_contact?.relationship.toUpperCase()}})</b></td>
+		<td>
+			<ul><b>Name(EN)</b>:{{data.data?.emergency_contact?.name_en}}</ul>
+			<ul><b>Name(BN)</b>:{{data.data?.emergency_contact?.name_bn}}</ul>
+			<ul><b>Profession</b>:{{data.data?.emergency_contact?.profession}}</ul>
+			<ul><b>Contact no</b>:{{data.data?.emergency_contact?.contact_no}}</ul>
+			<ul><b>Email</b>:{{data.data?.emergency_contact?.email}}</ul>
+		</td>
+
+	</tr>
+	<tr>
+		<td><b>Birth certificate no</b></td>
+		<td>{{data.data?.birth_certificate_no}}</td>
+		<td><b>Gender</b></td>
+		<td>{{data.data?.gender?.title}}</td>
+	</tr>
+	
+	<tr>
+		
+		<td><b>Academic Info</b></td>
+		<td>
+			<table style="width:100%">
+				<tr>
+					<td><b>Institute Name</b></td>						
+					<td><b>Examinaion Name</b></td>
+					<td><b>Passing Year</b></td>
+					<td><b>Obtained GPA</b></td>
+					<td><b>MAximum GPA</b></td>
+				</tr>
+				<tr *ngFor="let academic of data.data.academic_info">
+					<td>{{academic.institute_name}}</td>
+					<td>{{academic.examination_name}}</td>
+					<td>{{academic.passing_year}}</td>
+					<td>{{academic.obtain_gpa}}</td>
+					<td>{{academic.max_gpa}}</td>
+				</tr>
+			</table>
+		</td>
+		<td><b>Siblings info</b></td>
+		<td>
+			<table style="width:100%">
+				<tr>
+					<td><b>Name</b></td>						
+					<td><b>Class</b></td>
+					<td><b>Roll</b></td>
+					<td><b>Section</b></td>
+					<td><b>Relationship</b></td>
+				</tr>
+				<tr *ngFor="let sib of data.data.sibling_info">
+					<td>{{sib.name}}</td>
+					<td>{{sib.class}}</td>
+					<td>{{sib.roll}}</td>
+					<td>{{sib.section}}</td>
+					<td>{{sib.relationship}}</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td><b>Payment Info</b></td>
+		<td>
+			<ul><b>Bank name</b>:{{data.data.payment_info?.bank_name}}</ul>
+			<ul><b>Branch name</b>:{{data.data.payment_info?.branch_name}}</ul>
+			<ul><b>Date</b>:{{data.data?.payment_info?.date}}</ul>
+			<ul><b>Amount</b>:{{data.data?.payment_info?.amount}}</ul>
+			<ul><b>Slip no</b>:{{data.data?.payment_info?.slip_no}}</ul>
+			<ul><b>Depositor Contact No</b>:{{data.data?.payment_info?.depositor_contact_no}}</ul>
+			<ul><b>Description</b>:<div [innerHTML]="data.data?.payment_info?.description">
+			</div></ul>
+		</td>
+		<td><b>Group</b></td>
+		<td><b>{{data.data?.group?.title}}</b></td>
+	</tr>
+</table>
+<br>
+<div align="center">
+			<button *ngIf="data.data.applicants_status == 'Eligible for admission test'" class="reference-button add-button mt-16 mt-sm-0 mr-3" id="courseAdd" mat-raised-button type="submit"
+			(click)="downloadAdmitCard()" >
+			<mat-icon style="margin-right: 3px;">get_app</mat-icon>
+			<span>Download Admit Card</span>
+		</button>
+		<button class="reference-button add-button mt-16 mt-sm-0 mr-3" id="courseAdd" mat-raised-button type="submit"
+		(click)="downloadDetails()" >
+		<mat-icon style="margin-right: 3px;">get_app</mat-icon>
+		<span>Download Details</span>
+	</button>
+	<!-- <button mat-button color="secondary" [mat-dialog-close]="null">
+		<mat-icon style="margin-right: 3px;">keyboard_arrow_left</mat-icon>
+		<span>Cancel</span>
+	</button> -->
+</div>
+</body>
+</html>
+	
+
+

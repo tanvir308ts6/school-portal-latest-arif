@@ -1,0 +1,56 @@
+<mat-dialog-content class="mat-typography">
+  <div class="page-layout simple left-sidebar inner-sidebar inner-scroll">
+    <div class="content">
+      <div class="center p-24 pb-56">
+        <div class="app-panel-wrapper mat-white-bg mat-elevation-z2">
+
+          <div class="app-panel-header">
+            <div class="app-panel-title">
+              <div class="panel-header-left">
+                <mat-icon>library_books</mat-icon>
+                <h3>Content Archive</h3>
+              </div>
+            </div>
+            <div class="panel-header-right">
+              <button mat-button color="secondary" [mat-dialog-close]="null">
+                <mat-icon style="margin-right: 3px;">keyboard_arrow_left</mat-icon>
+                <span>Cancel</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="app-panel-body">
+            <div class="col-md-12 row">
+              <table>
+                <tr>
+                  <th>Title</th>
+                  <td>{{data?.title}}</td>
+                </tr>
+                <tr>
+                  <th>Category</th>
+                  <td>{{data?.category?.title}}</td>
+                </tr>
+                <tr>
+                  <th>Topic</th>
+                  <td>{{data?.topic?.title}}</td>
+                </tr>
+                <tr>
+                  <th>Creation Date</th>
+                  <td>{{data?.created_at?.slice(0,10)}}</td>
+                </tr>
+              </table>
+              <app-custom-iframe [url_id]="data?.file_id" [cus_id]="1" [cus_style]="{width: '100%'}"
+                [cus_div_style]="{width: '100%'}" style="width: '100%'"></app-custom-iframe>
+              <div style="font-weight: bolder;">
+                Note
+              </div>
+              <div style="width: 100%;" [innerHTML]="data?.description">
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>

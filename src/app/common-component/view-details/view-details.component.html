@@ -1,0 +1,19 @@
+
+<mat-dialog-content>
+    <mat-card style="display: flex; justify-content: space-between; flex-direction: column; ">
+       <div style="display: flex; justify-content: space-between; flex-direction: row; ">
+        <mat-card-title style="text-align: center; font-size: medium;">
+            Unit Description
+        </mat-card-title>
+        <mat-card-actions>
+            <button mat-raised-button (click)="closeSelf()">Close</button>
+        </mat-card-actions>
+       </div>
+       <div>
+        
+        <mat-list role="list">
+            <mat-list-item [innerHTML]="viewDetails.description"></mat-list-item>
+          </mat-list>
+       </div>
+    </mat-card>
+</mat-dialog-content>

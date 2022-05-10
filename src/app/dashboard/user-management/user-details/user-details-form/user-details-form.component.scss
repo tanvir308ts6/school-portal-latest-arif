@@ -1,0 +1,27 @@
+.flex-row {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.flex-col {
+  display: flex;
+  flex-flow: column wrap;
+}
+
+th {
+  width: 40%;
+}
+
+th, td{
+  border: 1px solid rgba(140, 140, 140, 1);
+  border-collapse: collapse;
+}
+
+.odd-row{
+  background-color: rgba(180, 180, 180, 1);
+  height: 40px;
+}
+.even-row{
+  background-color: rgba(255, 255, 255, 1);
+  height: 40px;
+}

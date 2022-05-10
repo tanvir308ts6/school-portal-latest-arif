@@ -1,0 +1,1265 @@
+<mat-dialog-content class="mat-typography">
+  <div class="page-layout simple left-sidebar inner-sidebar inner-scroll">
+    <div class="content">
+      <div class="center p-24 pb-56">
+        <div class="app-panel-wrapper mat-white-bg mat-elevation-z2">
+          <div class="app-panel-header">
+            <div class="app-panel-title">
+              <div class="panel-header-left">
+                <mat-icon>library_books</mat-icon>
+                <h3>Manually Apply for Students</h3>
+              </div>
+            </div>
+            <div class="panel-header-right">
+              <button mat-button color="secondary" (click)="closeDialog()">
+                <mat-icon style="margin-right: 3px;">keyboard_arrow_left</mat-icon>
+                <span>Cancel</span>
+              </button>
+            </div>
+          </div>
+          <div class="app-panel-body body-class">
+            <div class="form-title-header">
+              <div class="form-title-image-container">
+                <app-custom-image class="form-title-image-icon" [url_id]="parsedData?.institute?.logo_id"
+                  [cus_style]="{width: '120px', height: '120px'}" [cus_id]="1"></app-custom-image>
+              </div>
+              <div class="form-title-text">
+                <div style="font-size: 16px; font-weight: bold">
+                  {{parsedData?.institute?.english_name}}
+                </div>
+                <div>
+                  <span style="font-weight: bolder;">Address</span>: {{parsedData?.institute?.address}}
+                </div>
+                <div>
+                  <span style="font-weight: bolder;">Phone</span>: {{parsedData?.institute?.phone}}
+                </div>
+                <div>
+                  <span style="font-weight: bolder;">Admisison Session</span>: {{sessionObj?.title}}
+                </div>
+              </div>
+              <div class="form-title-image-container" (click)="dynamicallyOpenandLoadFile('studentProfilePictureFile')">
+                <input style="display: none" #clearValue id="studentProfilePictureFile"
+                  (change)="loadFileAndShow($event, 'studentProfilePicture-2', 'upload_profile', formItemsData)"
+                  type="file">
+                <app-custom-image [url_id]="userInfo?.profile_url" [img_id]="'studentProfilePicture'" [cus_id]="2"
+                  [cus_style]="{width: '100px', height: '120px'}"></app-custom-image>
+              </div>
+            </div>
+            <div class="row">
+              <form [formGroup]="formItemsData" name="leavevCategoryForm" novalidate style="margin: 0 auto;">
+                <div class="row">
+                  <div class="col-md-12 form-subtitle-header">
+                    Applicant's Information
+                  </div>
+                  <div class="col-md-12">
+                    <mat-form-field>
+                      <mat-label>Applicant's Name in English</mat-label>
+                      <input autocomplete="off" formControlName="name_en" matInput placeholder="Enter Applicant's Name">
+                      <mat-error *ngIf="formItemsData.get('name_en')?.hasError('customError')">
+                        {{ formItemsData.get('name_en')?.errors?.customError.value }}
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-12">
+                    <mat-form-field>
+                      <mat-label>Applicant's Name in Bangla</mat-label>
+                      <input autocomplete="off" formControlName="name_bn" matInput
+                        placeholder="Enter Applicant's Name(Bangla)">
+                      <mat-error *ngIf="formItemsData.get('name_bn')?.hasError('customError')">
+                        {{ formItemsData.get('name_bn')?.errors?.customError.value }}
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-6">
+                    <mat-form-field>
+                      <mat-label>Version</mat-label>
+                      <mat-select formControlName="version_id" id="categoryInstitute">
+                        <mat-option>---</mat-option>
+                        <mat-option *ngFor="let item of versionDropdown" [value]="item.id">
+                          {{item?.title}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-6">
+                    <mat-form-field>
+                      <mat-label>Class</mat-label>
+                      <mat-select type="number" formControlName="class_id" id="class_id">
+                        <mat-option>---</mat-option>
+                        <mat-option *ngFor="let class of classDropdown" [value]="class.id">
+                          {{class?.title}}
+                        </mat-option>
+                      </mat-select>
+                      <mat-error *ngIf="formItemsData.get('class_id')?.hasError('customError')">
+                        {{ formItemsData.get('class_id')?.errors?.customError.value }}
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-6">
+                    <mat-form-field>
+                      <mat-label>Prefered Shift</mat-label>
+                      <mat-select formControlName="shift_id" id="categoryInstitute">
+                        <mat-option>---</mat-option>
+                        <mat-option *ngFor="let item of shiftDropdown" [value]="item.id">
+                          {{item?.title}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-6">
+                    <mat-form-field>
+                      <mat-label>Group</mat-label>
+                      <mat-select formControlName="group_id" id="gender">
+                        <mat-option>---</mat-option>
+                        <mat-option *ngFor="let stat of groupDropdown" [value]="stat.id">
+                          {{stat?.title}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-6">
+                    <mat-form-field>
+                      <mat-label>Date of Birth</mat-label>
+                      <input matInput [matDatepicker]="picker1" placeholder="Date of Birth"
+                        formControlName="date_of_birth">
+                      <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                      <mat-datepicker #picker1></mat-datepicker>
+                      <mat-error *ngIf="formItemsData.get('date_of_birth')?.hasError('customError')">
+                        {{ formItemsData.get('date_of_birth')?.errors?.customError.value }}
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-6">
+                    <mat-form-field>
+                      <mat-label>Place of Birth</mat-label>
+                      <input autocomplete="off" formControlName="place_of_birth" id="place_of_birth" matInput
+                        placeholder="Place of Birth">
+                      <mat-error *ngIf="formItemsData.get('place_of_birth')?.hasError('customError')">
+                        {{ formItemsData.get('place_of_birth')?.errors?.customError.value }}
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-6">
+                    <mat-form-field>
+                      <mat-label>Birth certificate no</mat-label>
+                      <input autocomplete="off" formControlName="birth_certificate_no" id="nationality" matInput
+                        placeholder="birth certificate no">
+                      <mat-error *ngIf="formItemsData.get('birth_certificate_no')?.hasError('customError')">
+                        {{ formItemsData.get('birth_certificate_no')?.errors?.customError.value }}
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-6 file">
+                    <input style="display: none" #clearValue id="birthCirtificateFile"
+                      (change)="loadFile($event, 'upload_birth_certificate', formItemsData, 'birthCirtificateName')"
+                      type="file">
+                    <input value="Upload birth certificate" matInput id="birthCirtificateName"
+                      style="border-bottom: 1px solid rgba(148,148,148,1); width: 90%;"
+                      (click)="dynamicallyOpenFile('birthCirtificateFile')" readonly>
+                    <mat-icon (click)="dynamicallyOpenFile('birthCirtificateFile')">attach_file</mat-icon>
+                  </div>
+                  <div class="col-md-6">
+                    <mat-form-field>
+                      <mat-label>CRVS No( Civil Registration and Vital Statistics id)</mat-label>
+                      <input autocomplete="off" formControlName="crvs_id" id="nationality" matInput
+                        placeholder="CRVS Id(If any)">
+                      <mat-error *ngIf="formItemsData.get('birth_certificate_no')?.hasError('customError')">
+                        {{ formItemsData.get('nationality')?.errors?.customError.value }}
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-6">
+                    <mat-form-field>
+                      <mat-label>Blood Group</mat-label>
+                      <mat-select formControlName="blood_group" id="blood_group">
+                        <mat-option>---</mat-option>
+                        <mat-option *ngFor="let item of bloodGroups" [value]="item.text">
+                          {{item?.text}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-6">
+                    <mat-form-field>
+                      <mat-label>Gender</mat-label>
+                      <mat-select formControlName="gender_id" id="gender">
+                        <mat-option>---</mat-option>
+                        <mat-option *ngFor="let stat of genderDropdown" [value]="stat.id">
+                          {{stat?.title}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-6">
+                    <mat-form-field>
+                      <mat-label>Religion</mat-label>
+                      <mat-select formControlName="religion_id" id="religion">
+                        <mat-option>---</mat-option>
+                        <mat-option *ngFor="let stat of religionDropdown" [value]="stat.id">
+                          {{stat?.title}}
+                        </mat-option>
+                      </mat-select>
+                      <mat-error *ngIf="formItemsData.get('religion_id')?.hasError('customError')">
+                        {{ formItemsData.get('religion_id')?.errors?.customError.value }}
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-6">
+                    <mat-form-field>
+                      <mat-label>Nationality</mat-label>
+                      <input autocomplete="off" formControlName="nationality" id="nationality" matInput
+                        placeholder="nationality">
+                      <mat-error *ngIf="formItemsData.get('nationality')?.hasError('customError')">
+                        {{ formItemsData.get('nationality')?.errors?.customError.value }}
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-6">
+                    <mat-form-field>
+                      <mat-label>Contact No</mat-label>
+                      <input autocomplete="off" formControlName="contact_no" id="contact_no" matInput
+                        placeholder="Contact No">
+                      <mat-error *ngIf="formItemsData.get('contact_no')?.hasError('customError')">
+                        {{ formItemsData.get('contact_no')?.errors?.customError.value }}
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-6">
+                    <mat-form-field>
+                      <mat-label>Email</mat-label>
+                      <input autocomplete="off" formControlName="email" id="email" matInput
+                        onfocus="this.removeAttribute('readonly');" placeholder="Enter email">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-12 form-sub-subtitle-header">
+                    Present address
+                  </div>
+                  <div class="col-md-6">
+                    <mat-form-field>
+                      <mat-label>Division</mat-label>
+                      <mat-select formControlName="present_division_id" id=""
+                        (selectionChange)="getDistrictOnchange($event)">
+                        <mat-option>---</mat-option>
+                        <mat-option *ngFor="let stat of divisionDropdown" [value]="stat.id">
+                          {{stat?.en_name}}
+                        </mat-option>
+                      </mat-select>
+                      <mat-error *ngIf="formItemsData.get('present_division_id')?.hasError('customError')">
+                        {{ formItemsData.get('present_division_id')?.errors?.customError.value }}
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-6">
+                    <mat-form-field>
+                      <mat-label>District</mat-label>
+                      <mat-select formControlName="present_district_id" id=""
+                        (selectionChange)="getThanaOnchange($event)">
+                        <mat-option>---</mat-option>
+                        <mat-option *ngFor="let stat of districtDropdown" [value]="stat.id">
+                          {{stat?.eng_name}}
+                        </mat-option>
+                      </mat-select>
+                      <mat-error *ngIf="formItemsData.get('present_district_id')?.hasError('customError')">
+                        {{ formItemsData.get('present_district_id')?.errors?.customError.value }}
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-6">
+                    <mat-form-field>
+                      <mat-label>Upazila</mat-label>
+                      <mat-select formControlName="present_thana_id" id=""
+                        (selectionChange)="getPostOfficeOnchange($event)">
+                        <mat-option>---</mat-option>
+                        <mat-option *ngFor="let stat of thanaDropdown" [value]="stat.id">
+                          {{stat?.eng_name}}
+                        </mat-option>
+                      </mat-select>
+                      <mat-error *ngIf="formItemsData.get('present_thana_id')?.hasError('customError')">
+                        {{ formItemsData.get('present_thana_id')?.errors?.customError.value }}
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-6">
+                    <mat-form-field>
+                      <mat-label>Union Parishad</mat-label>
+                      <mat-select formControlName="present_post_office_id" id="">
+                        <mat-option>---</mat-option>
+                        <mat-option *ngFor="let stat of postOfficeDropdown" [value]="stat.id">
+                          {{stat?.eng_name}}
+                        </mat-option>
+                      </mat-select>
+                      <mat-error *ngIf="formItemsData.get('present_post_office_id')?.hasError('customError')">
+                        {{ formItemsData.get('present_post_office_id')?.errors?.customError.value }}
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-12">
+                    <mat-form-field>
+                      <mat-label>Home Location</mat-label>
+                      <input autocomplete="off" formControlName="present_address" id="present_address" matInput
+                        placeholder="Home Location">
+                      <mat-error *ngIf="formItemsData.get('present_address')?.hasError('customError')">
+                        {{ formItemsData.get('present_address')?.errors?.customError.value }}
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-12 mt-4 mb-4">
+                    <input type="checkbox" formControlName="presentAndPermanentSame" id="chckbx"
+                      style="width:15px;height:15px;" [(ngModel)]="checkedForPermanentAddress"
+                      (ngModelChange)="presentAndPermanentSameAction(checkedForPermanentAddress)">
+                    Permanent address same as present address
+                  </div>
+                  <div class="col-md-12 form-sub-subtitle-header">
+                    Permanent address
+                  </div>
+                  <div class="col-md-6">
+                    <mat-form-field>
+                      <mat-label>Division</mat-label>
+
+                      <mat-select formControlName="permanent_division_id"
+                        (selectionChange)="getPermanentDistrictOnchange($event)">
+                        <mat-option>---</mat-option>
+                        <mat-option *ngFor="let stat of divisionDropdown" [value]="stat.id">
+                          {{stat?.en_name}}
+                        </mat-option>
+                      </mat-select>
+                      <mat-error *ngIf="formItemsData.get('permanent_division_id')?.hasError('customError')">
+                        {{ formItemsData.get('permanent_division_id')?.errors?.customError.value }}
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-6">
+                    <mat-form-field>
+                      <mat-label>District</mat-label>
+                      <mat-select formControlName="permanent_district_id" id=""
+                        (selectionChange)="getPermanentThanaOnchange($event)">
+                        <mat-option>---</mat-option>
+                        <mat-option *ngFor="let stat of permanentdistrictDropdown" [value]="stat.id">
+                          {{stat?.eng_name}}
+                        </mat-option>
+                      </mat-select>
+                      <mat-error *ngIf="formItemsData.get('permanent_district_id')?.hasError('customError')">
+                        {{ formItemsData.get('permanent_district_id')?.errors?.customError.value }}
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-6">
+                    <mat-form-field>
+                      <mat-label>Upazila</mat-label>
+                      <mat-select formControlName="permanent_thana_id" id=""
+                        (selectionChange)="getPermanentPostOfficeOnchange($event)">
+                        <mat-option>---</mat-option>
+                        <mat-option *ngFor="let stat of permanentthanaDropdown" [value]="stat.id">
+                          {{stat?.eng_name}}
+                        </mat-option>
+                      </mat-select>
+                      <mat-error *ngIf="formItemsData.get('permanent_thana_id')?.hasError('customError')">
+                        {{ formItemsData.get('permanent_thana_id')?.errors?.customError.value }}
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+
+                  <div class="col-md-6">
+                    <mat-form-field>
+                      <mat-label>Union Parishod</mat-label>
+                      <mat-select formControlName="permanent_post_office_id" id="">
+                        <mat-option>---</mat-option>
+                        <mat-option *ngFor="let stat of permanentpostOfficeDropdown" [value]="stat.id">
+                          {{stat?.eng_name}}
+                        </mat-option>
+                      </mat-select>
+                      <mat-error *ngIf="formItemsData.get('permanent_post_office_id')?.hasError('customError')">
+                        {{ formItemsData.get('permanent_post_office_id')?.errors?.customError.value }}
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-12">
+                    <mat-form-field>
+                      <mat-label>Home Location</mat-label>
+                      <input autocomplete="off" formControlName="permanent_address" id="present_address" matInput
+                        placeholder="Home Location">
+                      <mat-error *ngIf="formItemsData.get('permanent_address')?.hasError('customError')">
+                        {{ formItemsData.get('permanent_address')?.errors?.customError.value }}
+                      </mat-error>
+                    </mat-form-field>
+
+                  </div>
+                  <br>
+                  <div class="col-md-12 form-subtitle-header">
+                    Parental Information
+                  </div>
+                  <div class="col-md-12 form-sub-subtitle-header">
+                    1.Mother:
+                  </div>
+                  <div class="col-md-4">
+                    <mat-form-field>
+                      <mat-label>Name in English</mat-label>
+                      <input autocomplete="off" formControlName="mother_name_en" [(ngModel)]="parents[0].name_en"
+                        matInput placeholder="Enter Name">
+                      <mat-error *ngIf="formItemsData.get('mother_name_en')?.hasError('customError')">
+                        {{ formItemsData.get('mother_name_en')?.errors?.customError.value }}
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-4">
+                    <mat-form-field>
+                      <mat-label>Name in Bangla</mat-label>
+                      <input autocomplete="off" formControlName="mother_name_bn" [(ngModel)]="parents[0].name_bn"
+                        matInput placeholder="Enter Name(Bangla)">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-4">
+                    <mat-form-field>
+                      <mat-label>Profession</mat-label>
+                      <mat-select formControlName="mother_profession" [(ngModel)]="parents[0].profession" id="">
+                        <mat-option>---</mat-option>
+                        <mat-option *ngFor="let stat of professionDropdownMother" [value]="stat.text">
+                          {{stat.text}}
+                        </mat-option>
+                      </mat-select>
+                      <mat-error *ngIf="formItemsData.get('mother_profession')?.hasError('customError')">
+                        {{ formItemsData.get('mother_profession')?.errors?.customError.value }}
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-4">
+                    <mat-form-field>
+                      <mat-label>Designation</mat-label>
+                      <input autocomplete="off" formControlName="mother_designation"
+                        [(ngModel)]="parents[0].designation" matInput placeholder="Enter designation">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-4">
+                    <mat-form-field>
+                      <mat-label>Educational qualification</mat-label>
+                      <input autocomplete="off" formControlName="mother_education"
+                        [(ngModel)]="parents[0].educational_qualification" id="email" matInput
+                        onfocus="this.removeAttribute('readonly');" placeholder="Enter educational qualification">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-4">
+                    <mat-form-field>
+                      <mat-label>Office address</mat-label>
+                      <input autocomplete="off" formControlName="mother_office_address"
+                        [(ngModel)]="parents[0].office_address" matInput placeholder="Enter office address(If any)">
+
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-4">
+                    <mat-form-field>
+                      <mat-label>NID no</mat-label>
+                      <input autocomplete="off" formControlName="mother_nid_no" [(ngModel)]="parents[0].nid_no"
+                        id="contact_no" matInput placeholder="NID No">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-4">
+                    <mat-form-field>
+                      <mat-label>Contact No</mat-label>
+                      <input autocomplete="off" formControlName="mother_contact_no" [(ngModel)]="parents[0].contact_no"
+                        id="contact_no" matInput placeholder="Contact No">
+                      <!-- <mat-error *ngIf="formItemsData.get('mother_contact_no')?.hasError('customError')">
+                          {{ formItemsData.get('mother_contact_no')?.errors?.customError.value }}
+                        </mat-error> -->
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-4">
+                    <mat-form-field>
+                      <mat-label>Email</mat-label>
+                      <input autocomplete="off" formControlName="mother_email" [(ngModel)]="parents[0].email" id="email"
+                        matInput onfocus="this.removeAttribute('readonly');" placeholder="Enter email">
+                    </mat-form-field>
+                  </div>
+                  <!-- <div class="col-md-4">
+                      <div class="file" class="col-md-12 mt-2">
+                        <p>Upload NID</p>
+                        <input #clearValue (change)="loadFile($event)" placeholder="Select photo" type="file"> <br>
+                      </div>
+                    </div> -->
+                  <!-- <div class="col-md-3">
+                      <div class="file" class="col-md-12 mt-2">
+                        <p>Upload Profile Photo</p>
+                        <input #clearValue (change)="loadFile($event)" placeholder="Select photo" type="file"> <br>
+                      </div>
+                    </div> -->
+                  <div class="col-md-4 file">
+                    <input style="display: none" #clearValue id="motherNIDFile"
+                      (change)="loadFile($event, 'mother_upload_nid', formItemsData, 'motherNIDFileName')" type="file">
+                    <input value="Upload NID" matInput style="border-bottom: 1px solid rgba(148,148,148,1); width: 85%;"
+                      (click)="dynamicallyOpenFile('motherNIDFile')" readonly id="motherNIDFileName">
+                    <mat-icon (click)="dynamicallyOpenFile('motherNIDFile')">attach_file</mat-icon>
+                  </div>
+                  <div class="col-md-4 file">
+                    <input style="display: none" #clearValue id="motherProfileImageFile"
+                      (change)="loadFile($event, 'mother_upload_photo', formItemsData, 'motherProfileImageFileName')"
+                      type="file">
+                    <input value="Upload Profile Photo" matInput id="motherProfileImageFileName"
+                      style="border-bottom: 1px solid rgba(148,148,148,1); width: 85%;"
+                      (click)="dynamicallyOpenFile('motherProfileImageFile')" readonly>
+                    <mat-icon (click)="dynamicallyOpenFile('motherProfileImageFile')">attach_file</mat-icon>
+                  </div>
+                  <div class="col-md-4">
+                    <section class="example-section">
+                      <input type="checkbox" id="chckbx" style="width:15px;height:15px;"
+                        formControlName="mother_isguardian" [(ngModel)]="parents[0].is_guardian"
+                        (ngModelChange)="changeValueIsGuardianMother(parents[0].is_guardian)">
+                      Is guardian
+                    </section>
+                  </div>
+                  <div class="col-md-12 mt-4">
+                    Is she/he is working in this institute?
+                    <mat-radio-group aria-label="Select an option" formControlName="mother_working"
+                      [(ngModel)]="parents[0].is_institute_employee">
+                      <mat-radio-button value='1'>Yes</mat-radio-button>
+                      <mat-radio-button value='0'>No</mat-radio-button>
+                    </mat-radio-group>
+                  </div>
+                  <div class="col-md-12 form-sub-subtitle-header">
+                    2.Father:
+                  </div>
+                  <div class="col-md-4">
+                    <mat-form-field>
+                      <mat-label>Name in English</mat-label>
+                      <input autocomplete="off" formControlName="father_name_en" [(ngModel)]="parents[1].name_en"
+                        matInput placeholder="Enter Name">
+                      <mat-error *ngIf="formItemsData.get('father_name_en')?.hasError('customError')">
+                        {{ formItemsData.get('father_name_en')?.errors?.customError.value }}
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-4">
+                    <mat-form-field>
+                      <mat-label>Name in Bangla</mat-label>
+                      <input autocomplete="off" formControlName="father_name_bn" [(ngModel)]="parents[1].name_bn"
+                        matInput placeholder="Enter Name(Bangla)">
+                      <mat-error *ngIf="formItemsData.get('father_name_bn')?.hasError('customError')">
+                        {{ formItemsData.get('father_name_bn')?.errors?.customError.value }}
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-4">
+                    <mat-form-field>
+                      <mat-label>Profession</mat-label>
+                      <mat-select formControlName="father_profession" [(ngModel)]="parents[1].profession" id="">
+                        <mat-option>---</mat-option>
+                        <mat-option *ngFor="let stat of professionDropdownMother" [value]="stat.text">
+                          {{stat.text}}
+                        </mat-option>
+                      </mat-select>
+                      <mat-error *ngIf="formItemsData.get('father_profession')?.hasError('customError')">
+                        {{ formItemsData.get('father_profession')?.errors?.customError.value }}
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-4">
+                    <mat-form-field>
+                      <mat-label>Designation</mat-label>
+                      <input autocomplete="off" formControlName="father_designation"
+                        [(ngModel)]="parents[1].designation" matInput placeholder="Enter designation">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-4">
+                    <mat-form-field>
+                      <mat-label>Educational qualification</mat-label>
+                      <input autocomplete="off" formControlName="father_education"
+                        [(ngModel)]="parents[1].educational_qualification" id="email" matInput
+                        onfocus="this.removeAttribute('readonly');" placeholder="Enter educational qualification">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-4">
+                    <mat-form-field>
+                      <mat-label>Office address</mat-label>
+                      <input autocomplete="off" formControlName="father_office_address"
+                        [(ngModel)]="parents[1].office_address" matInput placeholder="Enter office address(If any)">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-4">
+                    <mat-form-field>
+                      <mat-label>NID no</mat-label>
+                      <input autocomplete="off" formControlName="father_nid_no" [(ngModel)]="parents[1].nid_no"
+                        id="contact_no" matInput placeholder="NID No">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-4">
+                    <mat-form-field>
+                      <mat-label>Contact No</mat-label>
+                      <input autocomplete="off" formControlName="father_contact_no" [(ngModel)]="parents[1].contact_no"
+                        id="contact_no" matInput placeholder="Contact No">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-4">
+                    <mat-form-field>
+                      <mat-label>Email</mat-label>
+                      <input autocomplete="off" formControlName="father_email" [(ngModel)]="parents[1].email" id="email"
+                        matInput onfocus="this.removeAttribute('readonly');" placeholder="Enter email">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-4 file">
+                    <input style="display: none" #clearValue id="fatherNIDFile"
+                      (change)="loadFile($event, 'father_upload_nid', formItemsData, 'fatherNIDFileName')" type="file">
+                    <input value="Upload NID" matInput style="border-bottom: 1px solid rgba(148,148,148,1); width: 85%;"
+                      (click)="dynamicallyOpenFile('fatherNIDFile')" readonly id="fatherNIDFileName">
+                    <mat-icon (click)="dynamicallyOpenFile('fatherNIDFile')">attach_file</mat-icon>
+                  </div>
+                  <div class="col-md-4 file">
+                    <input style="display: none" #clearValue id="fatherProfileImageFile"
+                      (change)="loadFile($event, 'father_upload_photo', formItemsData, 'fatherProfileImageFileName')"
+                      type="file">
+                    <input value="Upload Profile Photo" matInput id="fatherProfileImageFileName"
+                      style="border-bottom: 1px solid rgba(148,148,148,1); width: 85%;"
+                      (click)="dynamicallyOpenFile('fatherProfileImageFile')" readonly>
+                    <mat-icon (click)="dynamicallyOpenFile('fatherProfileImageFile')">attach_file</mat-icon>
+                  </div>
+                  <div class="col-md-4">
+                    <section class="example-section">
+                      <input type="checkbox" id="chckbx" style="width:15px;height:15px;"
+                        formControlName="father_isguardian" [(ngModel)]="parents[1].is_guardian"
+                        (ngModelChange)="changeValueIsGuardianMother(parents[1].is_guardian)">
+                      Is guardian
+                    </section>
+                  </div>
+                  <div class="col-md-12 mt-4">
+                    Is she/he is working in this institute?
+                    <mat-radio-group aria-label="Select an option" formControlName="father_working"
+                      [(ngModel)]="parents[1].is_institute_employee">
+                      <mat-radio-button value='1'>Yes</mat-radio-button>
+                      <mat-radio-button value='0'>No</mat-radio-button>
+                    </mat-radio-group>
+                  </div>
+                  <div class="col-md-12" *ngIf="!parents[0].is_guardian && !parents[1].is_guardian">
+                    <div class="form-sub-subtitle-header">
+                      3.Guardian Information(Except parents)
+                    </div>
+                    <div class="row" *ngFor="let guardian of guardianArr; let i = index;">
+                      <div class="col-md-4">
+                        <mat-form-field>
+                          <mat-label>Relationship</mat-label>
+                          <input autocomplete="off" formControlName="guardian_relationship"
+                            [(ngModel)]="guardian.relationship" matInput placeholder="Enter Relationship">
+                          <mat-error *ngIf="formItemsData.get('guardian_relationship')?.hasError('customError')">
+                            {{ formItemsData.get('guardian_relationship')?.errors?.customError.value }}
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-4">
+                        <mat-form-field>
+                          <mat-label>Name(English)</mat-label>
+                          <input autocomplete="off" formControlName="guardian_name_en" [(ngModel)]="guardian.name_en"
+                            matInput placeholder="Enter Name(English)">
+                          <mat-error *ngIf="formItemsData.get('guardian_name_en')?.hasError('customError')">
+                            {{ formItemsData.get('guardian_name_en')?.errors?.customError.value }}
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-4">
+                        <mat-form-field>
+                          <mat-label>Name(Bangla)</mat-label>
+                          <input autocomplete="off" formControlName="guardian_name_bn" [(ngModel)]="guardian.name_bn"
+                            matInput placeholder="Enter Name(Bangla)">
+                          <mat-error *ngIf="formItemsData.get('guardian_name_bn')?.hasError('customError')">
+                            {{ formItemsData.get('guardian_name_bn')?.errors?.customError.value }}
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-4">
+                        <mat-form-field>
+                          <mat-label>Profession</mat-label>
+                          <input autocomplete="off" formControlName="guardian_profession"
+                            [(ngModel)]="guardian.profession" id="contact_no" matInput placeholder="profession">
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-4">
+                        <mat-form-field>
+                          <mat-label>Designation</mat-label>
+                          <input autocomplete="off" formControlName="guardian_designation"
+                            [(ngModel)]="guardian.designation" matInput placeholder="Enter designation">
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-4">
+                        <mat-form-field>
+                          <mat-label>Educational qualification</mat-label>
+                          <input autocomplete="off" formControlName="guardian_education"
+                            [(ngModel)]="guardian.educational_qualification" id="email" matInput
+                            onfocus="this.removeAttribute('readonly');" placeholder="Enter educational qualification">
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-4">
+                        <mat-form-field>
+                          <mat-label>Office address</mat-label>
+                          <input autocomplete="off" formControlName="guardian_office_address"
+                            [(ngModel)]="guardian.office_address" matInput placeholder="Enter office address">
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-4">
+                        <mat-form-field>
+                          <mat-label>NID no</mat-label>
+                          <input autocomplete="off" formControlName="guardian_nid_no" [(ngModel)]="guardian.nid_no"
+                            id="contact_no" matInput placeholder="NID No">
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-4">
+                        <mat-form-field>
+                          <mat-label>Contact no</mat-label>
+                          <input autocomplete="off" formControlName="guardian_contact_no"
+                            [(ngModel)]="guardian.contact_no" id="contact_no" matInput
+                            onfocus="this.removeAttribute('readonly');" placeholder="Enter contact no">
+                          <mat-error *ngIf="formItemsData.get('guardian_contact_no')?.hasError('customError')">
+                            {{ formItemsData.get('guardian_contact_no')?.errors?.customError.value }}
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-4">
+                        <mat-form-field>
+                          <mat-label>Email</mat-label>
+                          <input autocomplete="off" formControlName="guardian_email" [(ngModel)]="guardian.email"
+                            id="email" matInput onfocus="this.removeAttribute('readonly');" placeholder="Enter email">
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-4 file">
+                        <input style="display: none" #clearValue id="guardianNIDFile"
+                          (change)="loadFile($event, 'guardian_upload_nid', formItemsData, 'guardianNIDFileName')"
+                          type="file">
+                        <input value="Upload Guardian NID" matInput id="guardianNIDFileName"
+                          style="border-bottom: 1px solid rgba(148,148,148,1); width: 85%;"
+                          (click)="dynamicallyOpenFile('guardianNIDFile')" readonly>
+                        <mat-icon (click)="dynamicallyOpenFile('guardianNIDFile')">attach_file</mat-icon>
+                      </div>
+                      <div class="col-md-4 file">
+                        <input style="display: none" #clearValue id="guardianProfileImageFile"
+                          (change)="loadFile($event, 'guardian_upload_photo', formItemsData, 'guardianProfileImageFileName')"
+                          type="file">
+                        <input value="Upload Profile Photo" matInput id="guardianProfileImageFileName"
+                          style="border-bottom: 1px solid rgba(148,148,148,1); width: 85%;"
+                          (click)="dynamicallyOpenFile('guardianProfileImageFile')" readonly>
+                        <mat-icon (click)="dynamicallyOpenFile('guardianProfileImageFile')">attach_file</mat-icon>
+                      </div>
+                      <div class="col-md-12 mt-4">
+                        Is she/he is working in this institute?
+                        <mat-radio-group aria-label="Select an option" formControlName="guardian_working"
+                          [(ngModel)]="guardian.is_institute_employee">
+                          <mat-radio-button value='1'>Yes</mat-radio-button>
+                          <mat-radio-button value='0'>No</mat-radio-button>
+                        </mat-radio-group>
+                      </div>
+                    </div>
+                    <br>
+                  </div>
+                  <br>
+                  <div class="col-md-12 mt-12">
+                    Student Lives with?
+                    <mat-radio-group aria-label="Select an option" formControlName="live_with"
+                      (change)="radioChange($event)">
+                      <mat-radio-button value='Father'>Father</mat-radio-button>
+                      <mat-radio-button value='Mother'>Mother</mat-radio-button>
+                      <mat-radio-button value='Both Parents'>Both Parents</mat-radio-button>
+                      <mat-radio-button value='Guardian'>Guardian</mat-radio-button>
+                    </mat-radio-group>
+                    <p *ngIf="!livewithfield" style="color:red">The live with field is required</p>
+                  </div>
+                  <div class="col-md-12">
+                    <div class="form-sub-subtitle-header">
+                      4.Emergency Contact Information
+                    </div>
+                    <div class="row" *ngFor="let emergency of emergencyContactArr; let i = index;">
+                      <div class="col-md-12">
+                      </div>
+                      <div class="col-md-4">
+                        <mat-form-field>
+                          <mat-label>Relation with applicant</mat-label>
+                          <input autocomplete="off" formControlName="emergency_relationship"
+                            [(ngModel)]="emergency.relationship" matInput placeholder="Enter Relationship">
+                          <mat-error *ngIf="formItemsData.get('emergency_relationship')?.hasError('customError')">
+                            {{ formItemsData.get('emergency_relationship')?.errors?.customError.value }}
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-4">
+                        <mat-form-field>
+                          <mat-label>Name(English)</mat-label>
+                          <input autocomplete="off" formControlName="emergency_name_en" [(ngModel)]="emergency.name_en"
+                            matInput placeholder="Enter Name(English)">
+                          <mat-error *ngIf="formItemsData.get('emergency_name_en')?.hasError('customError')">
+                            {{ formItemsData.get('emergency_name_en')?.errors?.customError.value }}
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-4">
+                        <mat-form-field>
+                          <mat-label>Name(Bangla)</mat-label>
+                          <input autocomplete="off" formControlName="emergency_name_bn" [(ngModel)]="emergency.name_bn"
+                            matInput placeholder="Enter Name(Bangla)">
+                          <mat-error *ngIf="formItemsData.get('emergency_name_bn')?.hasError('customError')">
+                            {{ formItemsData.get('emergency_name_bn')?.errors?.customError.value }}
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-4">
+                        <mat-form-field>
+                          <mat-label>Profession</mat-label>
+                          <input autocomplete="off" formControlName="emergency_profession"
+                            [(ngModel)]="emergency.profession" id="contact_no" matInput placeholder="profession">
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-4">
+                        <mat-form-field>
+                          <mat-label>Designation</mat-label>
+                          <input autocomplete="off" formControlName="emergency_designation"
+                            [(ngModel)]="emergency.designation" matInput placeholder="Enter designation">
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-4">
+                        <mat-form-field>
+                          <mat-label>Educational qualification</mat-label>
+                          <input autocomplete="off" [(ngModel)]="emergency.educational_qualification"
+                            formControlName="emergency_education" id="email" matInput
+                            onfocus="this.removeAttribute('readonly');" placeholder="Enter educational qualification">
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-4">
+                        <mat-form-field>
+                          <mat-label>Office address</mat-label>
+                          <input autocomplete="off" formControlName="emergency_office_address"
+                            [(ngModel)]="emergency.office_address" matInput placeholder="Enter office address">
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-4">
+                        <mat-form-field>
+                          <mat-label>NID no</mat-label>
+                          <input autocomplete="off" formControlName="emergency_nid_no" [(ngModel)]="emergency.nid_no"
+                            id="contact_no" matInput placeholder="NID No">
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-4 file">
+                        <input style="display: none" #clearValue id="emergencyContactNIDFile"
+                          (change)="loadFile($event, 'emergency_upload_nid', formItemsData, 'emergencyContactNIDFileName')"
+                          type="file">
+                        <input value="Upload NID" matInput id="emergencyContactNIDFileName"
+                          style="border-bottom: 1px solid rgba(148,148,148,1); width: 85%;"
+                          (click)="dynamicallyOpenFile('emergencyContactNIDFile')" readonly>
+                        <mat-icon (click)="dynamicallyOpenFile('emergencyContactNIDFile')">attach_file</mat-icon>
+                      </div>
+                      <div class="col-md-4">
+                        <mat-form-field>
+                          <mat-label>Contact no</mat-label>
+                          <input autocomplete="off" formControlName="emergency_contact_no"
+                            [(ngModel)]="emergency.contact_no" id="contact_no" matInput
+                            onfocus="this.removeAttribute('readonly');" placeholder="Enter contact no">
+                          <mat-error *ngIf="formItemsData.get('emergency_contact_no')?.hasError('customError')">
+                            {{ formItemsData.get('emergency_contact_no')?.errors?.customError.value }}
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-4">
+                        <mat-form-field>
+                          <mat-label>Email</mat-label>
+                          <input autocomplete="off" formControlName="emergency_email" [(ngModel)]="emergency.email"
+                            id="email" matInput onfocus="this.removeAttribute('readonly');" placeholder="Enter email">
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-4 file">
+                        <input style="display: none" #clearValue id="emergencyContactProfileImageFile"
+                          (change)="loadFile($event, 'emergency_upload_photo', formItemsData, 'emergencyContactProfileImageFileName')"
+                          type="file">
+                        <input value="Upload Profile Image" matInput id="emergencyContactProfileImageFileName"
+                          style="border-bottom: 1px solid rgba(148,148,148,1); width: 85%;"
+                          (click)="dynamicallyOpenFile('emergencyContactProfileImageFile')" readonly>
+                        <mat-icon (click)="dynamicallyOpenFile('emergencyContactProfileImageFile')">attach_file
+                        </mat-icon>
+                      </div>
+                      <div class="col-md-11">
+                        Is she/he is working in this institute?
+                        <mat-radio-group aria-label="Select an option" formControlName="emergency_working"
+                          [(ngModel)]="emergency.is_institute_employee">
+                          <mat-radio-button value='1'>Yes</mat-radio-button>
+                          <mat-radio-button value='0'>No</mat-radio-button>
+                        </mat-radio-group>
+                      </div>
+                    </div>
+                    <br>
+                  </div>
+                  <div class="col-md-12 mt-4">
+                    Have you applied here before?
+                    <mat-radio-group aria-label="Select an option" formControlName="apply_before" [(ngModel)]="checked">
+                      <mat-radio-button value='Yes'>Yes</mat-radio-button>
+                      <mat-radio-button value='No'>No</mat-radio-button>
+                    </mat-radio-group>
+
+
+                  </div>
+
+                  <br>
+                  <div class="col-md-12">
+                    <b>Diability/Special medical condition</b>
+                  </div>
+                  <br>
+                  <div class="col-md-6">
+                    <mat-form-field>
+                      <mat-label>Diability</mat-label>
+                      <input autocomplete="off" formControlName="disability" id="contact_no" matInput
+                        placeholder="Disability(If any)">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-6">
+                    <mat-form-field>
+                      <mat-label>Special medical condition</mat-label>
+                      <input autocomplete="off" formControlName="special_medical_condition" id="contact_no" matInput
+                        placeholder="Special medical condition(If any)">
+
+
+
+                    </mat-form-field>
+                  </div>
+                  <!-- <div class="col-md-3">
+                      <div class="file" class="col-md-12 mt-2">
+                        <p>Upload Profile Photo</p>
+                        <input #clearValue (change)="loadFile($event)" placeholder="Select photo" type="file"> <br>
+                      </div>
+                    </div> -->
+
+
+                  <!-- <div class="col-md-3">
+  
+                      <div class="file" class="col-md-12 mt-2">
+                        <p> Upload Vaccine Card </p>
+                        <input #clearValue (change)="loadFile($event)" placeholder="Select photo" type="file"> <br>
+                      </div>
+                    </div> -->
+                  <div class="col-md-6 file">
+                    <input style="display: none" #clearValue id="vaccinCardFile"
+                      (change)="loadFile($event, 'upload_vaccine_card', formItemsData, 'vaccinCardFileName')"
+                      type="file">
+                    <input value="Upload Vaccine Card" matInput id="vaccinCardFileName"
+                      style="border-bottom: 1px solid rgba(148,148,148,1); width: 90%;"
+                      (click)="dynamicallyOpenFile('vaccinCardFile')" readonly>
+                    <mat-icon (click)="dynamicallyOpenFile('vaccinCardFile')">attach_file</mat-icon>
+                  </div>
+                  <!-- <div class="col-md-6">
+                      <div class="file" class="col-md-12 mt-2">
+                        <p> Upload Mediacal Diagnosis Card </p>
+                        <input #clearValue (change)="loadFile($event)" placeholder="Select photo" type="file"> <br>
+                      </div>
+                    </div> -->
+                  <div class="col-md-6 file">
+                    <input style="display: none" #clearValue id="medicalDiagnosisCardFile"
+                      (change)="loadFile($event, 'upload_medical_diagnosis_card', formItemsData, 'medicalDiagnosisCardFileName')"
+                      type="file">
+                    <input value="Upload Mediacal Diagnosis Card" matInput id="medicalDiagnosisCardFileName"
+                      style="border-bottom: 1px solid rgba(148,148,148,1); width: 90%;"
+                      (click)="dynamicallyOpenFile('medicalDiagnosisCardFile')" readonly>
+                    <mat-icon (click)="dynamicallyOpenFile('medicalDiagnosisCardFile')">attach_file</mat-icon>
+                  </div>
+                  <br>
+                </div>
+                <!-- guardian -->
+              </form>
+            </div>
+            <div class="row">
+              <div class="form-subtitle-header">
+                Previous Academic Information
+              </div>
+              <form [formGroup]="academicInfoForm" novalidate style="margin: 0 auto;">
+                <div class="row" *ngFor="let item of academic_info; let i = index;">
+                  <div class="col-md-6">
+                    <mat-form-field>
+                      <mat-label>Examination Name</mat-label>
+                      <input autocomplete="off" formControlName="examination_name" [(ngModel)]="item.examination_name"
+                        matInput placeholder="Enter Examination Name">
+                      <mat-error *ngIf="academicInfoForm.get('examination_name')?.hasError('customError')">
+                        {{ academicInfoForm.get('examination_name')?.errors?.customError.value }}
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-2">
+                    <mat-form-field>
+                      <mat-label>Passing Year</mat-label>
+                      <input autocomplete="off" formControlName="passing_year" [(ngModel)]="item.passing_year" matInput
+                        placeholder="Enter Passing Year">
+                      <mat-error *ngIf="academicInfoForm.get('passing_year')?.hasError('customError')">
+                        {{ academicInfoForm.get('passing_year')?.errors?.customError.value }}
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-2">
+                    <mat-form-field>
+                      <mat-label>Obtained GPA</mat-label>
+                      <input autocomplete="off" formControlName="obtain_gpa" [(ngModel)]="item.obtain_gpa"
+                        id="contact_no" matInput placeholder="Obtained GPA">
+                      <mat-error *ngIf="academicInfoForm.get('obtain_gpa')?.hasError('customError')">
+                        {{ academicInfoForm.get('obtain_gpa')?.errors?.customError.value }}
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-2">
+                    <mat-form-field>
+                      <mat-label>GPA Scale</mat-label>
+                      <input autocomplete="off" formControlName="gpa_scale" [(ngModel)]="item.gpa_scale" id="email"
+                        matInput onfocus="this.removeAttribute('readonly');" placeholder="Enter GPA Scale">
+                      <mat-error *ngIf="academicInfoForm.get('gpa_scale')?.hasError('customError')">
+                        {{ academicInfoForm.get('gpa_scale')?.errors?.customError.value }}
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+
+                  <div class="col-md-12">
+                    <mat-label>Reason for Leave</mat-label>
+                    <ckeditor [editor]="editor" formControlName="reason_for_leave" [(ngModel)]="item.reason_for_leave"
+                      id="reason_for_leave">
+                    </ckeditor>
+                    <mat-error *ngIf="academicInfoForm.get('reason_for_leave')?.hasError('customError')">
+                      {{ academicInfoForm.get('reason_for_leave')?.errors?.customError.value }}
+                    </mat-error>
+                  </div>
+                  <div class="col-md-4">
+                    <mat-form-field>
+                      <mat-label>Institute Name</mat-label>
+                      <input autocomplete="off" formControlName="institute_name" [(ngModel)]="item.institute_name"
+                        matInput placeholder="Enter Institute Name">
+                      <mat-error *ngIf="academicInfoForm.get('institute_name')?.hasError('customError')">
+                        {{ academicInfoForm.get('institute_name')?.errors?.customError.value }}
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <!-- <div class="col-md-5">
+  
+                      <div class="file" class="col-md-12 mt-2">
+                        <p>Upload Certificate</p>
+                        <input #clearValue (change)="loadFile($event)" placeholder="Select file" type="file"> <br>
+                      </div>
+                    </div> -->
+                  <div class="col-md-4 file">
+                    <input style="display: none" #clearValue [id]="'uploadCertificate'+i"
+                      (change)="loadFile($event, '', academicInfoForm, 'uploadCertificateName'+i)" type="file">
+                    <input value="Upload Certificate" matInput [id]="'uploadCertificateName'+i"
+                      style="border-bottom: 1px solid rgba(148,148,148,1); width: 88%;"
+                      (click)="dynamicallyOpenFile('uploadCertificate'+i)" readonly>
+                    <mat-icon (click)="dynamicallyOpenFile('uploadCertificate'+i)">attach_file</mat-icon>
+                  </div>
+                  <div class="col-md-4 file">
+                    <input style="display: none" #clearValue [id]="'uploadTestimonial'+i"
+                      (change)="loadFile($event, '', academicInfoForm, 'uploadTestimonialName'+i)" type="file">
+                    <input value="Upload Testimonial" matInput [id]="'uploadTestimonialName'+i"
+                      style="border-bottom: 1px solid rgba(148,148,148,1); width: 88%;"
+                      (click)="dynamicallyOpenFile('uploadTestimonial'+i)" readonly>
+                    <mat-icon (click)="dynamicallyOpenFile('uploadTestimonial'+i)">attach_file</mat-icon>
+                  </div>
+                  <!-- <div class="col-md-6">
+                      <div class="file" class="col-md-12 mt-2">
+                        <p>Upload Testimonial</p>
+                        <input #clearValue (change)="loadFile($event)" placeholder="Select file" type="file"> <br>
+                      </div>
+                    </div> -->
+                  <div class="col-md-12" style="display: flex; justify-content: center; align-items: center;">
+                    <button mat-mini-fab color="primary" aria-label="Example icon button with a plus one icon"
+                      (click)="deleteAcademicInfoRow(i)">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </div>
+
+                </div>
+              </form>
+              <div class="button-container mt-2">
+                <button class="reference-button add-button mt-16 mt-sm-0" id="courseAdd" mat-raised-button type="submit"
+                  color="primary" aria-label="Example icon button with a plus one icon" (click)="addAcademicInfo()">
+                  <mat-icon>add_circle</mat-icon><span> Add more</span>
+                </button>
+              </div>
+            </div>
+            <div style="width: 100%;">
+              <div class="form-subtitle-header">
+                Siblings Information
+              </div>
+              <form [formGroup]="siblingInfoForm" novalidate style="margin: 0 auto;">
+                <div class="row" *ngFor="let prevInfo of sibling_info;let i = index;">
+                  <div class="col-md-11 row">
+                    <div class="col-md-4">
+                      <mat-form-field>
+                        <mat-label>Institute Name</mat-label>
+                        <input autocomplete="off" formControlName="institute_name" [(ngModel)]="prevInfo.institute_name"
+                          matInput placeholder="Enter Institute Name">
+                        <mat-error *ngIf="siblingInfoForm.get('institute_name')?.hasError('customError')">
+                          {{ siblingInfoForm.get('institute_name')?.errors?.customError.value }}
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-md-4">
+                      <mat-form-field>
+                        <mat-label>Name</mat-label>
+                        <input autocomplete="off" formControlName="name" [(ngModel)]="prevInfo.name" matInput
+                          placeholder="Enter Name">
+                        <mat-error *ngIf="siblingInfoForm.get('name')?.hasError('customError')">
+                          {{ siblingInfoForm.get('name')?.errors?.customError.value }}
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-md-4">
+                      <mat-form-field>
+                        <mat-label>Gender</mat-label>
+                        <mat-select formControlName="gender" [(ngModel)]="prevInfo.gender" id="gender">
+                          <mat-option>---</mat-option>
+                          <mat-option *ngFor="let stat of genderDropdownSibling" [value]="stat.text">
+                            {{stat.text}}
+                          </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="siblingInfoForm.get('gender')?.hasError('customError')">
+                          {{ siblingInfoForm.get('gender')?.errors?.customError.value }}
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-md-3">
+                      <mat-form-field>
+                        <mat-label>Relationship</mat-label>
+                        <input autocomplete="off" formControlName="relationship" [(ngModel)]="prevInfo.relationship"
+                          matInput placeholder="Enter Relationship">
+                        <mat-error *ngIf="siblingInfoForm.get('relationship')?.hasError('customError')">
+                          {{ siblingInfoForm.get('relationship')?.errors?.customError.value }}
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+
+                    <div class="col-md-3">
+                      <mat-form-field>
+                        <mat-label>Class</mat-label>
+                        <input autocomplete="off" formControlName="class" [(ngModel)]="prevInfo.class" matInput
+                          placeholder="Enter Class">
+                        <mat-error *ngIf="siblingInfoForm.get('class')?.hasError('customError')">
+                          {{ siblingInfoForm.get('class')?.errors?.customError.value }}
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-md-3">
+                      <mat-form-field>
+                        <mat-label>Roll</mat-label>
+                        <input autocomplete="off" formControlName="roll" [(ngModel)]="prevInfo.roll" matInput
+                          placeholder="Enter Roll">
+                        <mat-error *ngIf="siblingInfoForm.get('roll')?.hasError('customError')">
+                          {{ siblingInfoForm.get('roll')?.errors?.customError.value }}
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-md-3">
+                      <mat-form-field>
+                        <mat-label>Section</mat-label>
+                        <input autocomplete="off" formControlName="section" [(ngModel)]="prevInfo.section" matInput
+                          placeholder="Enter Section">
+                        <mat-error *ngIf="siblingInfoForm.get('section')?.hasError('customError')">
+                          {{ siblingInfoForm.get('section')?.errors?.customError.value }}
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="col-md-1 content-in-center">
+                    <button mat-mini-fab color="primary" aria-label="Example icon button with a plus one icon"
+                      (click)="deleteSiblingInfoRow(i)">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </div>
+                </div>
+              </form>
+              <div class="button-container mt-2">
+                <button class="reference-button add-button mt-16 mt-sm-0" id="courseAdd" mat-raised-button type="submit"
+                  color="primary" aria-label="Example icon button with a plus one icon" (click)="addSiblingInfo()">
+                  <mat-icon>add_circle</mat-icon><span> Add more</span>
+                </button>
+              </div>
+            </div>
+            <div *ngIf="!manualUpBtn">
+              <div class="form-subtitle-header">
+                Payment Information
+              </div>
+              <form [formGroup]="paymentFormGroup" novalidate style="margin: 0 auto;">
+                <div class="row">
+                  <div class="col-md-6">
+                    <mat-form-field>
+                      <mat-label>Bank Name</mat-label>
+                      <mat-select formControlName="bank_name" [(ngModel)]="payment.bank_name" id="categoryInstitute"
+                        (selectionChange)="getBranchOnchange($event)">
+                        <mat-option>---</mat-option>
+                        <mat-option *ngFor="let item of bankDropdown" [value]="item.title">
+                          {{item.title}}
+                        </mat-option>
+                      </mat-select>
+                      <mat-error *ngIf="paymentFormGroup.get('bank_name')?.hasError('customError')">
+                        {{ paymentFormGroup.get('bank_name')?.errors?.customError.value }}
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+
+                  <div class="col-md-6">
+                    <mat-form-field>
+                      <mat-label>Branch name</mat-label>
+                      <input readonly autocomplete="off" formControlName="branch_name" [(ngModel)]="payment.branch_name"
+                        matInput placeholder="Enter Branch Name">
+                      <mat-error *ngIf="paymentFormGroup.get('branch_name')?.hasError('customError')">
+                        {{ paymentFormGroup.get('branch_name')?.errors?.customError.value }}
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-12">
+                    <mat-label>Description</mat-label>
+                    <ckeditor [editor]="editor" formControlName="description" [(ngModel)]="payment.description"
+                      id="description">
+                    </ckeditor>
+                  </div>
+
+                  <div class="col-md-6">
+                    <mat-form-field appearance="fill">
+                      <mat-label>Choose a date</mat-label>
+                      <input matInput [matDatepicker]="picker" formControlName="date" [(ngModel)]="payment.date">
+                      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                      <mat-datepicker #picker></mat-datepicker>
+                      <mat-error *ngIf="paymentFormGroup.get('date')?.hasError('customError')">
+                        {{ paymentFormGroup.get('date')?.errors?.customError.value }}
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+
+                  <div class="col-md-6">
+                    <mat-form-field>
+                      <mat-label>Slip no</mat-label>
+                      <input autocomplete="off" formControlName="slip_no" [(ngModel)]="payment.slip_no" matInput
+                        placeholder="Enter Slip no">
+                      <mat-error *ngIf="paymentFormGroup.get('slip_no')?.hasError('customError')">
+                        {{ paymentFormGroup.get('slip_no')?.errors?.customError.value }}
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-6">
+                    <mat-form-field>
+                      <mat-label>Amount</mat-label>
+                      <input autocomplete="off" formControlName="amount" [(ngModel)]="payment.amount" matInput
+                        placeholder="Enter Amount">
+                      <mat-error *ngIf="paymentFormGroup.get('amount')?.hasError('customError')">
+                        {{ paymentFormGroup.get('amount')?.errors?.customError.value }}
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="file" class="col-md-12 mt-2">
+                      <p> Upload Slip</p>
+                      <input #clearValue (change)="loadFile($event, '', paymentFormGroup)" placeholder="Select photo"
+                        type="file"> <br>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button color="warn" mat-raised-button (click)="resetAction()">
+    <mat-icon style="margin-right: 3px;">autorenew</mat-icon>
+    <span>Reset</span>
+  </button>
+  <button *ngIf="!loaderStatus" class="reference-button add-button" mat-raised-button (click)="actionForApply()"
+    cdkFocusInitial>
+    <mat-icon style="margin-right: 3px;">apps</mat-icon>
+    <span>{{userInfo ? 'Update' : 'Save'}}</span>
+  </button>
+  <button *ngIf="loaderStatus" class="reference-button" mat-raised-button (click)="actionForApply()" cdkFocusInitial>
+    <mat-progress-spinner style="background-color: white; float: left" mode="indeterminate" diameter="37">
+    </mat-progress-spinner>
+  </button>
+</mat-dialog-actions>

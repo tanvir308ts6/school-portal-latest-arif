@@ -1,0 +1,101 @@
+<mat-dialog-content class="mat-typography">
+    <div class="page-layout simple left-sidebar inner-sidebar inner-scroll">
+      <div class="content">
+        <div class="center p-24 pb-56">
+          <div class="app-panel-wrapper mat-white-bg mat-elevation-z2">
+  
+            <div class="app-panel-header">
+              <div class="app-panel-title">
+                <div class="panel-header-left">
+                  <mat-icon>library_books</mat-icon>
+                  <h3>{{data.data?'Edit':'Add'}} Bank</h3>
+                </div>
+              </div>
+              <div class="panel-header-right">
+                <button mat-button color="secondary" [mat-dialog-close]="null">
+                  <mat-icon style="margin-right: 3px;">keyboard_arrow_left</mat-icon>
+                  <span>Cancel</span>
+                </button>
+              </div>
+            </div>
+  
+            <div class="app-panel-body">
+              <form [formGroup]="formItemsData" name="invcategoryForm" novalidate style="margin: 0 auto;">
+                <div class="row">
+                  
+
+                  <div class="col-md-6">
+                    <mat-form-field>
+                      <mat-label>Title</mat-label>
+                      <input autocomplete="off" formControlName="title" id="title" matInput
+                        onfocus="this.removeAttribute('readonly');" placeholder="Enter title" required>
+                      <mat-error *ngIf="formItemsData.get('title')?.hasError('customError')">
+                        {{ formItemsData.get('title')?.errors?.customError.value }}
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-6">
+                    <mat-form-field>
+                      <mat-label>Branch</mat-label>
+                      <input autocomplete="off" formControlName="branch" id="branch" matInput
+                        onfocus="this.removeAttribute('readonly');" placeholder="Enter Branch" required>
+                      <mat-error *ngIf="formItemsData.get('branch')?.hasError('customError')">
+                        {{ formItemsData.get('branch')?.errors?.customError.value }}
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                     <div class="col-md-6">
+                    <mat-form-field>
+                      <mat-label>Account no</mat-label>
+                      <input autocomplete="off" formControlName="account_no" id="account_no" matInput
+                        onfocus="this.removeAttribute('readonly');" placeholder="Enter account no" required>
+                      <mat-error *ngIf="formItemsData.get('account_no')?.hasError('customError')">
+                        {{ formItemsData.get('account_no')?.errors?.customError.value }}
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                    <div class="col-md-6">
+                    <mat-form-field>
+                      <mat-label>Account Name</mat-label>
+                      <input autocomplete="off" formControlName="account_name" id="account_name" matInput
+                        onfocus="this.removeAttribute('readonly');" placeholder="Enter account name" required>
+                      <mat-error *ngIf="formItemsData.get('account_name')?.hasError('customError')">
+                        {{ formItemsData.get('account_name')?.errors?.customError.value }}
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+               
+                  
+                 <div class="col-md-6" *ngIf="data.data">
+                    <mat-form-field>
+                      <mat-label>Status</mat-label>
+                      <mat-select formControlName="status" id="categoryStatus">
+                        <mat-option>---</mat-option>
+                        <mat-option *ngFor="let stat of statusDropdown" [value]="stat.id">
+                          {{stat.text}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+              
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button color="warn" mat-raised-button (click)="resetAction()">
+      <mat-icon style="margin-right: 3px;">autorenew</mat-icon>
+      <span>Reset</span>
+    </button>
+    <button *ngIf="!loaderStatus"  class="reference-button add-button" mat-raised-button (click)="validateForm()" cdkFocusInitial>
+      <mat-icon style="margin-right: 3px;">apps</mat-icon>
+      <span>{{data.data?'Update':'Save'}}</span>
+    </button>
+    <button *ngIf="loaderStatus" class="reference-button" mat-raised-button (click)="validateForm()" cdkFocusInitial>
+      <mat-progress-spinner style="background-color: white; float: left" mode="indeterminate" diameter="37"></mat-progress-spinner>
+    </button>
+  </mat-dialog-actions>

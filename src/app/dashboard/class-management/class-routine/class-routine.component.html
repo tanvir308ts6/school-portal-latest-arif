@@ -1,0 +1,18 @@
+<div class="page-layout simple left-sidebar inner-sidebar inner-scroll">
+  <div class="content">
+    <div class="center pb-56">
+      <mat-tab-group mat-stretch-tabs [(selectedIndex)]="currentTabIndex">
+        <mat-tab label="Class Wise View">
+          <app-routine-student-new
+            [dropdowns]="{institute: instituteDropdown, subject: subjectDropdown, teacher: teacherDropdown, session: sessionDropdown}">
+          </app-routine-student-new>
+        </mat-tab>
+        <mat-tab label="Person Wise View">
+          <app-routine-teacher
+            [dropdowns]="{institute: instituteDropdown, subject: subjectDropdown, teacher: teacherDropdown, session: sessionDropdown}">
+          </app-routine-teacher>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+  </div>
+</div>
